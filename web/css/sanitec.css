@@ -1,0 +1,253 @@
+/* ============================================
+   SANITEC — Estilos propios
+   ============================================ */
+
+:root {
+    --sanitec-vino:        #7b1e2f;   /* color principal vino oscuro */
+    --sanitec-vino-oscuro: #5a1522;   /* variante hover */
+    --sanitec-dorado:      #c9a961;   /* acento opcional */
+    --sanitec-sidebar-bg:  #f8f5f3;
+    --sanitec-header-h:    60px;
+    --sanitec-sidebar-w:   260px;
+    --sanitec-footer-h:    40px;
+}
+
+html, body { height: 100%; margin: 0; }
+
+/* ---------- Header ---------- */
+.sanitec-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--sanitec-header-h);
+    background-color: var(--sanitec-vino);
+    z-index: 1030;
+    box-shadow: 0 2px 4px rgba(0,0,0,.15);
+}
+
+/* ---------- Sidebar ---------- */
+.sanitec-sidebar {
+    position: fixed;
+    top: var(--sanitec-header-h);
+    left: 0;
+    width: var(--sanitec-sidebar-w);
+    height: calc(100vh - var(--sanitec-header-h));
+    background-color: var(--sanitec-sidebar-bg);
+    border-right: 1px solid #e6dcd6;
+    overflow-y: auto;
+    transition: transform .25s ease-in-out;
+    z-index: 1020;
+}
+
+.sidebar-logo {
+    border-bottom: 1px solid #e6dcd6;
+    background-color: #fff;
+}
+
+/* ---------- Sidebar: enlaces de navegación ---------- */
+
+/* Estado normal: café muy oscuro */
+.sanitec-sidebar .sanitec-nav-link {
+    color: #2c1e22 !important;          /* café muy oscuro */
+    border-radius: 6px;
+    margin: 2px 0;
+    padding: 9px 12px;
+    font-weight: 500;
+    transition: background .15s, color .15s;
+}
+
+/* Hover: texto guindo + fondo beige rosado sutil */
+.sanitec-sidebar .sanitec-nav-link:hover,
+.sanitec-sidebar .sanitec-nav-link:focus {
+    background-color: #f2e8e3 !important;
+    color: #7b1e2f !important;          /* guindo */
+}
+
+/* Ícono dentro del enlace: mismo color que el texto */
+.sanitec-sidebar .sanitec-nav-link .bi {
+    color: inherit !important;
+}
+
+/* Pestaña activa: fondo vino + texto blanco */
+.sanitec-sidebar .sanitec-nav-link.active {
+    background-color: #7b1e2f !important;   /* vino */
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+.sanitec-sidebar .sanitec-nav-link.active .bi {
+    color: #ffffff !important;
+}
+
+/* Hover sobre la pestaña activa (que no cambie a beige) */
+.sanitec-sidebar .sanitec-nav-link.active:hover,
+.sanitec-sidebar .sanitec-nav-link.active:focus {
+    background-color: #5a1522 !important;   /* vino más oscuro al hover */
+    color: #ffffff !important;
+}
+
+/* ---------- Área principal ---------- */
+.sanitec-main {
+    margin-left: var(--sanitec-sidebar-w);
+    margin-top: var(--sanitec-header-h);
+    min-height: calc(100vh - var(--sanitec-header-h) - var(--sanitec-footer-h));
+    display: flex;
+    flex-direction: column;
+    transition: margin .25s ease-in-out;
+}
+
+.sanitec-main > .container-fluid {
+    flex: 1;
+}
+
+/* ---------- Footer ---------- */
+.sanitec-footer {
+    height: var(--sanitec-footer-h);
+    background-color: #f8f5f3;
+    border-top: 1px solid #e6dcd6;
+    color: #6b5c55;
+}
+
+/* ---------- Estado colapsado ---------- */
+body.sidebar-collapsed .sanitec-sidebar {
+    transform: translateX(-100%);
+}
+
+body.sidebar-collapsed .sanitec-main {
+    margin-left: 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991.98px) {
+    .sanitec-main { margin-left: 0; }
+    body:not(.sidebar-collapsed) .sanitec-sidebar {
+        box-shadow: 4px 0 15px rgba(0,0,0,.2);
+    }
+}
+
+
+/* ============================================
+   SANITEC — Página de Login (beige + guindo)
+   ============================================ */
+
+/* Fondo beige casi blanco en toda la página de login */
+.site-login {
+    min-height: calc(100vh - 140px);
+    background-color: #f5efe6;           /* beige claro */
+    padding: 2rem 1rem;
+}
+
+/* Tarjeta principal */
+.login-split-card {
+    max-width: 900px;
+    width: 100%;
+    background-color: #fbf8f3;           /* beige casi blanco */
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(123, 30, 47, 0.12);
+}
+
+/* Panel de marca: vino con gradiente sutil */
+.login-brand-panel {
+    background: linear-gradient(160deg, #7b1e2f 0%, #5a1522 100%);
+    color: #ffffff;
+}
+
+.login-brand-title {
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.login-brand-text {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Botón principal en vino */
+.login-btn {
+    background-color: #7b1e2f !important;
+    border-color: #7b1e2f !important;
+    color: #fff !important;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: background-color .2s, transform .1s;
+}
+
+.login-btn:hover,
+.login-btn:focus {
+    background-color: #5a1522 !important;
+    border-color: #5a1522 !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(90, 21, 34, 0.25);
+}
+
+.login-btn:active {
+    transform: translateY(1px);
+}
+
+/* Inputs en beige con foco vino */
+.site-login .form-control {
+    background-color: #fffdf9;
+    border-color: #e6dcd6;
+    color: #3a2b2f;
+    padding: .6rem .85rem;
+    font-size: .95rem;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+.site-login .form-control:focus {
+    background-color: #ffffff;
+    border-color: #7b1e2f;
+    box-shadow: 0 0 0 0.2rem rgba(123, 30, 47, 0.15);
+    color: #3a2b2f;
+}
+
+.site-login .form-control::placeholder {
+    color: #b8a99f;
+}
+
+/* Íconos del input group (los emojis de la vist) */
+.site-login .input-group-text {
+    background-color: #f2ebe3;
+    border-color: #e6dcd6;
+    color: #7b1e2f;
+}
+
+/* Etiquetas de los campos */
+.site-login .form-label {
+    color: #5a1522;
+    font-weight: 600;
+}
+
+/* Textos secundarios */
+.site-login .text-body-secondary {
+    color: #8a7a72 !important;
+}
+
+/* Errores de validación en vino */
+.site-login .invalid-feedback,
+.site-login .help-block {
+    color: #a13446;
+    font-size: .85rem;
+}
+
+.site-login .form-control.is-invalid,
+.site-login .was-validated .form-control:invalid {
+    border-color: #a13446;
+    background-color: #fff6f6;
+}
+
+/* Títulos */
+.site-login h1,
+.site-login h2,
+.site-login .h3 {
+    color: #3a2b2f;
+}
+
+/* Ajustes responsive */
+@media (max-width: 767.98px) {
+    .site-login {
+        padding: 1rem .5rem;
+        min-height: auto;
+    }
+    .login-split-card {
+        border-radius: 12px;
+    }
+}

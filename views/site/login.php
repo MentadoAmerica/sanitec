@@ -2,16 +2,14 @@
 
 /** @var yii\web\View $this */
 /** @var yii\bootstrap5\ActiveForm $form */
-
 /** @var app\models\LoginForm $model */
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-$this->title = 'Login to your account';
+$this->title = 'Iniciar sesión';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['meta_description'] = 'Log in to access your Yii2 application account.';
-$this->params['meta_keywords'] = 'yii, yii2, login, sign in, authentication';
+
 $htmlIcon = <<<HTML
 {label}<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;
@@ -21,93 +19,90 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
     <div class="card border-0 overflow-hidden login-split-card">
         <div class="row g-0">
 
-            <!-- Brand panel -->
-            <div class="col-md-5 d-none d-md-flex login-brand-panel text-white">
+            <!-- Panel de marca -->
+            <div class="col-md-5 d-none d-md-flex login-brand-panel">
                 <div class="d-flex flex-column justify-content-between p-4 p-lg-5 w-100">
                     <div>
                         <?= Html::img(
-                            Yii::getAlias('@web/images/yii3_full_white_for_dark.svg'),
+                            Yii::getAlias('@web/images/logo.jpg'),
                             [
-                                'alt' => 'Yii Framework',
-                                'class' => 'mb-4',
-                                'height' => 40,
+                                'alt' => 'TecNM Matamoros',
+                                'class' => 'mb-4 bg-white rounded p-2',
+                                'height' => 70,
                             ],
                         ) ?>
                     </div>
                     <div>
                         <h2 class="fw-bold mb-3 login-brand-title">
-                            Welcome<br>Back
+                            Bienvenido<br>a SANITEC
                         </h2>
                         <p class="opacity-75 mb-0 login-brand-text">
-                            Log in to access your Yii2 application and manage your account.
+                            Sistema de gestión y supervisión de sanitarios del
+                            Instituto Tecnológico de Matamoros.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- Form panel -->
+            <!-- Panel del formulario -->
             <div class="col-md-7">
                 <div class="p-4 p-lg-5">
                     <div class="text-center mb-4">
-                        <!-- Mobile-only logo -->
                         <div class="d-md-none mb-3">
                             <?= Html::img(
-                                Yii::getAlias('@web/images/yii3_full_black_for_light.svg'),
+                                Yii::getAlias('@web/images/logo.jpg'),
                                 [
-                                    'alt' => 'Yii Framework',
+                                    'alt' => 'TecNM Matamoros',
                                     'class' => 'login-mobile-logo',
-                                    'height' => 36,
+                                    'height' => 50,
                                 ],
                             ) ?>
                         </div>
                         <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
-                        <p class="text-body-secondary small">Enter your credentials to continue</p>
+                        <p class="text-body-secondary small">Ingresa tus credenciales institucionales</p>
                     </div>
 
                     <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
                     <div class="mb-3">
-                        <?= $form->field($model, 'username', [
+                        <?= $form->field($model, 'correo', [
                             'options' => ['class' => 'mb-0'],
-                            'template' => sprintf($htmlIcon, '&#128100;'),
+                            'template' => sprintf($htmlIcon, '&#128231;'),
                             'inputOptions' => [
                                 'class' => 'form-control',
-                                'placeholder' => 'username',
+                                'placeholder' => 'tu-correo@itmatamoros.edu.mx',
+                                'type' => 'email',
                                 'autofocus' => true,
                             ],
-                        ])->textInput()->label('Your Username', $labelOptions) ?>
+                        ])->textInput()->label('Correo institucional', $labelOptions) ?>
                     </div>
 
-                    <div class="mb-3">
-                        <?= $form->field($model, 'password', [
+                    <div class="mb-4">
+                        <?= $form->field($model, 'contrasena', [
                             'options' => ['class' => 'mb-0'],
                             'template' => sprintf($htmlIcon, '&#128274;'),
                             'inputOptions' => [
                                 'class' => 'form-control',
-                                'placeholder' => 'Password',
+                                'placeholder' => 'Contraseña',
                             ],
-                        ])->passwordInput()->label('Your Password', $labelOptions) ?>
-                    </div>
-
-                    <div class="mb-4">
-                        <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                        ])->passwordInput()->label('Contraseña', $labelOptions) ?>
                     </div>
 
                     <div class="d-grid">
-                        <?= Html::submitButton(
-                            'Login',
-                            [
-                                'class' => 'btn login-btn btn-lg rounded-3 text-white',
-                                'name' => 'login-button',
-                            ],
-                        ) ?>
+                           <?= Html::submitButton(
+                        '<i class="bi bi-box-arrow-in-right me-1"></i> Entrar',
+                        [
+                            'class' => 'btn login-btn btn-lg rounded-3 text-white',
+                            'name' => 'login-button',
+                            'encode' => false,
+                        ],
+                    ) ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>
 
-                    <div class="text-body-secondary text-center mt-3 small">
-                        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-                        To modify the username/password, check <code>app\models\User::$users</code>.
+                    <div class="text-body-secondary text-center mt-4 small">
+                        ¿No tienes cuenta? Contacta a Recursos Materiales.
                     </div>
 
                 </div>

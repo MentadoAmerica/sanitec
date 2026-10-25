@@ -30,8 +30,10 @@ $config = [
             'class' => \yii\caching\FileCache::class,
         ],
         'user' => [
-            'identityClass' => \app\models\User::class,
-            'enableAutoLogin' => true,
+         'identityClass' => 'app\models\User',
+        'enableAutoLogin' => false,   // sin "recordarme" (no tienes auth_key en la BD)
+        'enableSession' => true,
+        'loginUrl' => ['site/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
