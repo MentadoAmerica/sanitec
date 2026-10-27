@@ -18,8 +18,6 @@ if (Yii::$app->user->isGuest) {
     $menuItems = [
         ['label' => 'Inicio',           'url' => ['/site/index'],   'icon' => 'bi-house-door'],
         ['label' => 'Entrar',            'url' => ['/site/login'],   'icon' => 'bi-person'],
-        ['label' => 'Comprobar Docs.',   'url' => ['/site/comprobar-docs'], 'icon' => 'bi-check2-square'],
-        ['label' => 'Revista',           'url' => ['/site/revista'], 'icon' => 'bi-list-ul'],
     ];
 } else {
     // ===== MENÚ SEGÚN ROL =====

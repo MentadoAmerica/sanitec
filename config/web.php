@@ -17,6 +17,9 @@ $config = [
             ],
         ],
     ],
+    'controllerMap' => [
+        'site' => \app\controllers\SitioController::class,
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',

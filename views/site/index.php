@@ -4,204 +4,62 @@
 
 use yii\helpers\Html;
 
-$this->title = 'My Yii Application';
-$this->params['meta_description'] = 'A high-performance PHP framework best for developing web applications. Fast, secure, and professional.';
-$this->params['meta_keywords'] = 'yii, yii2, php, framework, web application, high-performance';
+$this->title = 'Bienvenido a SANITEC';
 ?>
-<div class="site-index">
-
-    <!-- Hero banner with Yii gradient -->
-    <div class="hero-banner text-white rounded-4 p-5 mb-4 position-relative overflow-hidden">
-        <?= Html::img(Yii::getAlias('@web/images/yii3_full_white_for_dark.svg'), [
-            'alt' => '',
-            'class' => 'd-none d-lg-block position-absolute hero-logo',
-        ]) ?>
-        <div class="position-relative">
-            <h1 class="display-5 fw-bold mb-3">Build with Yii Framework</h1>
-            <p class="lead opacity-75 mb-4 hero-lead">
-                A high-performance PHP framework best for developing web applications.
-                Fast, secure, and professional.
+<main class="public-home">
+    <section class="public-hero">
+        <div class="public-hero-content">
+            <span class="public-eyebrow">Instituto Tecnológico de Matamoros</span>
+            <h1>Bienvenido<?= Yii::$app->user->isGuest ? '' : ', ' . Html::encode(
+                Yii::$app->user->identity->nombre ?? '',
+            ) ?> a <span>SANITEC</span></h1>
+            <p class="public-lead">
+                Un espacio para mejorar el cuidado y seguimiento de los servicios sanitarios de nuestra institución.
             </p>
-            <div class="d-flex gap-2 flex-wrap">
-                <?= Html::a(
-                    'Get Started',
-                    'https://www.yiiframework.com/doc/guide/2.0/en/start-installation',
-                    [
-                        'class' => 'btn btn-light btn-lg fw-semibold px-4',
-                        'rel' => 'noopener',
-                        'target' => '_blank',
-                    ],
-                ) ?>
-                <?= Html::a(
-                    'API Reference',
-                    'https://www.yiiframework.com/doc/api/2.0',
-                    [
-                        'class' => 'btn btn-outline-light btn-lg px-4',
-                        'rel' => 'noopener',
-                        'target' => '_blank',
-                    ],
-                ) ?>
-            </div>
-        </div>
-    </div>
+            <p>
+                SANITEC es un prototipo inteligente para registrar, supervisar, evaluar y dar seguimiento a los
+                servicios sanitarios. Ayuda a detectar y atender oportunamente incidencias relacionadas con la
+                limpieza, el abastecimiento de insumos y el mantenimiento.
+            </p>
 
-    <!-- Extensions grid -->
-    <div class="row g-3">
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm rounded-3 extension-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="extension-icon" aria-hidden="true">&#128270;</span>
-                        <h3 class="h6 fw-bold mb-0 ms-2">yii2-debug</h3>
-                    </div>
-                    <p class="text-body-secondary small mb-0">
-                        Debug toolbar and debugger for Yii2. Inspect logs, database queries,
-                        request data, and application performance in real time.
-                    </p>
-                </div>
-                <div class="card-footer bg-transparent border-0 pt-0">
+            <?php if (Yii::$app->user->isGuest): ?>
+                <div class="public-actions">
                     <?= Html::a(
-                        'Learn more &raquo;',
-                        'https://www.yiiframework.com/extension/yiisoft/yii2-debug',
-                        [
-                            'class' => 'btn btn-sm btn-outline-secondary',
-                            'rel' => 'noopener',
-                            'target' => '_blank',
-                        ],
+                        '<i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i>Iniciar sesión',
+                        ['/site/login'],
+                        ['class' => 'btn public-button-primary', 'encode' => false],
                     ) ?>
                 </div>
-            </div>
+                <p class="public-note">
+                    ¿Aún no tienes cuenta? <?= Html::a('Regístrate aquí', ['/site/registro']) ?>.
+                </p>
+            <?php else: ?>
+                <div class="public-signed-in">
+                    <i class="bi bi-check-circle me-2" aria-hidden="true"></i>
+                    Ya iniciaste sesión. Usa el menú para acceder a las opciones disponibles para tu cuenta.
+                </div>
+            <?php endif; ?>
         </div>
-
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm rounded-3 extension-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="extension-icon" aria-hidden="true">&#9881;</span>
-                        <h3 class="h6 fw-bold mb-0 ms-2">yii2-gii</h3>
-                    </div>
-                    <p class="text-body-secondary small mb-0">
-                        Automatic code generator for models, controllers, CRUD, forms, and modules.
-                        Boost your productivity with scaffolding.
-                    </p>
-                </div>
-                <div class="card-footer bg-transparent border-0 pt-0">
-                    <?= Html::a(
-                        'Learn more &raquo;',
-                        'https://www.yiiframework.com/extension/yiisoft/yii2-gii',
-                        [
-                            'class' => 'btn btn-sm btn-outline-secondary',
-                            'rel' => 'noopener',
-                            'target' => '_blank',
-                        ],
-                    ) ?>
-                </div>
-            </div>
+        <div class="public-hero-icon" aria-hidden="true">
+            <i class="bi bi-droplet-half"></i>
         </div>
+    </section>
 
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm rounded-3 extension-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="extension-icon" aria-hidden="true">&#128203;</span>
-                        <h3 class="h6 fw-bold mb-0 ms-2">yii2-queue</h3>
-                    </div>
-                    <p class="text-body-secondary small mb-0">
-                        Asynchronous job queue with support for DB, Redis, AMQP, Beanstalk,
-                        and SQS drivers. Run background tasks with ease.
-                    </p>
-                </div>
-                <div class="card-footer bg-transparent border-0 pt-0">
-                    <?= Html::a(
-                        'Learn more &raquo;',
-                        'https://www.yiiframework.com/extension/yiisoft/yii2-queue',
-                        [
-                            'class' => 'btn btn-sm btn-outline-secondary',
-                            'rel' => 'noopener',
-                            'target' => '_blank',
-                        ],
-                    ) ?>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm rounded-3 extension-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="extension-icon" aria-hidden="true">&#9889;</span>
-                        <h3 class="h6 fw-bold mb-0 ms-2">yii2-redis</h3>
-                    </div>
-                    <p class="text-body-secondary small mb-0">
-                        Redis integration providing cache, session, and ActiveRecord support.
-                        Leverage in-memory storage for blazing-fast data access.
-                    </p>
-                </div>
-                <div class="card-footer bg-transparent border-0 pt-0">
-                    <?= Html::a(
-                        'Learn more &raquo;',
-                        'https://www.yiiframework.com/extension/yiisoft/yii2-redis',
-                        [
-                            'class' => 'btn btn-sm btn-outline-secondary',
-                            'rel' => 'noopener',
-                            'target' => '_blank',
-                        ],
-                    ) ?>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm rounded-3 extension-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="extension-icon" aria-hidden="true">&#128269;</span>
-                        <h3 class="h6 fw-bold mb-0 ms-2">yii2-elasticsearch</h3>
-                    </div>
-                    <p class="text-body-secondary small mb-0">
-                        Elasticsearch integration with ActiveRecord and query builder.
-                        Add powerful full-text search capabilities to your application.
-                    </p>
-                </div>
-                <div class="card-footer bg-transparent border-0 pt-0">
-                    <?= Html::a(
-                        'Learn more &raquo;',
-                        'https://www.yiiframework.com/extension/yiisoft/yii2-elasticsearch',
-                        [
-                            'class' => 'btn btn-sm btn-outline-secondary',
-                            'rel' => 'noopener',
-                            'target' => '_blank',
-                        ],
-                    ) ?>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm rounded-3 extension-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="extension-icon" aria-hidden="true">&#9993;</span>
-                        <h3 class="h6 fw-bold mb-0 ms-2">yii2-symfonymailer</h3>
-                    </div>
-                    <p class="text-body-secondary small mb-0">
-                        Email sending integration powered by Symfony Mailer.
-                        Compose and deliver rich HTML emails with attachments and templates.
-                    </p>
-                </div>
-                <div class="card-footer bg-transparent border-0 pt-0">
-                    <?= Html::a(
-                        'Learn more &raquo;',
-                        'https://github.com/yiisoft/yii2-symfonymailer',
-                        [
-                            'class' => 'btn btn-sm btn-outline-secondary',
-                            'rel' => 'noopener',
-                            'target' => '_blank',
-                        ],
-                    ) ?>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
+    <section class="public-features" aria-label="Funciones de SANITEC">
+        <article class="public-feature">
+            <span class="public-feature-icon"><i class="bi bi-clipboard2-check" aria-hidden="true"></i></span>
+            <h2>Registro y supervisión</h2>
+            <p>Organiza los servicios sanitarios y da seguimiento a las tareas de limpieza y atención.</p>
+        </article>
+        <article class="public-feature">
+            <span class="public-feature-icon"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i></span>
+            <h2>Evaluación e indicadores</h2>
+            <p>Consulta información útil para valorar el servicio y apoyar la gestión administrativa.</p>
+        </article>
+        <article class="public-feature">
+            <span class="public-feature-icon"><i class="bi bi-tools" aria-hidden="true"></i></span>
+            <h2>Atención de incidencias</h2>
+            <p>Facilita la detección y seguimiento de necesidades de limpieza, insumos y mantenimiento.</p>
+        </article>
+    </section>
+</main>

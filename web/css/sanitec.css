@@ -151,9 +151,22 @@ body.sidebar-collapsed .sanitec-main {
     color: #ffffff;
 }
 
-.login-brand-title {
-    color: #ffffff;
+.site-login .login-brand-title {
+    color: #f0d9a5;
     letter-spacing: -0.5px;
+}
+
+.login-gorila {
+    display: block;
+    width: min(250px, 100%);
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: contain;
+    box-shadow: 0 .75rem 1.75rem rgba(28, 8, 12, .2);
+}
+
+.login-mobile-logo {
+    object-fit: contain;
 }
 
 .login-brand-text {
@@ -249,5 +262,579 @@ body.sidebar-collapsed .sanitec-main {
     }
     .login-split-card {
         border-radius: 12px;
+    }
+}
+
+/* ---------- Bienvenida pública ---------- */
+.public-home {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.public-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 360px;
+    overflow: hidden;
+    padding: clamp(2rem, 5vw, 4.5rem);
+    border-radius: 1.25rem;
+    color: #fff;
+    background: linear-gradient(120deg, #5a1522 0%, #7b1e2f 62%, #9a3b4c 100%);
+    box-shadow: 0 1rem 2.5rem rgba(90, 21, 34, .18);
+}
+
+.public-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+}
+
+.public-eyebrow {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: #f0d9a5;
+    font-size: .82rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.public-hero h1 {
+    max-width: 700px;
+    margin-bottom: 1rem;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 750;
+    letter-spacing: -.04em;
+}
+
+.public-hero h1 span {
+    color: #f0d9a5;
+}
+
+.public-hero p {
+    max-width: 720px;
+    color: rgba(255, 255, 255, .86);
+    font-size: 1.05rem;
+    line-height: 1.75;
+}
+
+.public-hero .public-lead {
+    margin-bottom: .65rem;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.public-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: 1.75rem;
+}
+
+.public-button-primary {
+    padding: .8rem 1.25rem;
+    font-weight: 700;
+}
+
+.btn.public-button-primary {
+    color: #4a3210;
+    background-color: #c9a961;
+    border: 2px solid #e0c47e;
+    box-shadow: 0 .35rem 1rem rgba(28, 8, 12, .2);
+    font-size: 1.05rem;
+    min-width: 190px;
+}
+
+.btn.public-button-primary:hover,
+.btn.public-button-primary:focus {
+    color: #3a2608;
+    background-color: #d7b96b;
+    border-color: #f0d9a5;
+    box-shadow: 0 .45rem 1.2rem rgba(28, 8, 12, .28);
+}
+
+.site-login .registro-brand-title {
+    color: #f0d9a5;
+}
+
+.registro-brand-content {
+    gap: .25rem;
+}
+
+.registro-brand-logo {
+    display: block;
+    flex: 0 0 auto;
+    width: min(240px, 100%);
+    height: auto;
+    object-fit: contain;
+}
+
+.registro-brand-content > div {
+    max-width: 290px;
+}
+
+.registro-mobile-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.public-hero .public-note {
+    margin: 1rem 0 0;
+    font-size: .9rem;
+}
+
+.public-note a {
+    color: #fff;
+    font-weight: 700;
+}
+
+.public-hero-icon {
+    position: absolute;
+    right: 4%;
+    bottom: -3.5rem;
+    color: rgba(255, 255, 255, .09);
+    font-size: clamp(12rem, 28vw, 23rem);
+    line-height: 1;
+}
+
+.public-signed-in {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 1.25rem;
+    padding: .8rem 1rem;
+    border: 1px solid rgba(255, 255, 255, .35);
+    border-radius: .6rem;
+    color: #fff;
+    background: rgba(255, 255, 255, .1);
+}
+
+.public-features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+.public-feature {
+    padding: 1.5rem;
+    border: 1px solid #eee5e1;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 .4rem 1.4rem rgba(44, 30, 34, .05);
+}
+
+.public-feature-icon {
+    display: inline-grid;
+    width: 2.8rem;
+    height: 2.8rem;
+    margin-bottom: 1rem;
+    place-items: center;
+    border-radius: .8rem;
+    color: #7b1e2f;
+    background: #f7edef;
+    font-size: 1.35rem;
+}
+
+.public-feature h2 {
+    color: #3a2b2f;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.public-feature p {
+    margin-bottom: 0;
+    color: #71636a;
+    line-height: 1.65;
+}
+
+@media (max-width: 767.98px) {
+    .public-hero {
+        min-height: 0;
+        padding: 2rem 1.4rem;
+        border-radius: .9rem;
+    }
+
+    .public-hero-icon {
+        right: -2rem;
+        bottom: -2rem;
+        font-size: 12rem;
+    }
+
+    .public-actions {
+        flex-direction: column;
+    }
+
+    .public-actions .btn {
+        width: 100%;
+    }
+
+    .public-features {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Panel de administración ---------- */
+.admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    color: #382a2d;
+}
+
+.admin-welcome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.4rem 1.6rem;
+    border: 1px solid #eee3df;
+    border-left: 5px solid var(--sanitec-dorado);
+    border-radius: .9rem;
+    background: linear-gradient(110deg, #fff 0%, #fbf7f3 100%);
+    box-shadow: 0 .35rem 1.2rem rgba(44, 30, 34, .05);
+}
+
+.admin-welcome h1 {
+    color: #3a2b2f;
+    font-weight: 700;
+}
+
+.admin-welcome p,
+.admin-muted-label {
+    color: #786b6d;
+}
+
+.admin-eyebrow {
+    display: inline-block;
+    margin-bottom: .35rem;
+    color: #8a6924;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.admin-date {
+    flex: 0 0 auto;
+    padding: .6rem .85rem;
+    border: 1px solid #eadfc7;
+    border-radius: 2rem;
+    color: #6b5422;
+    background: #fbf5e8;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.admin-dashboard > .row {
+    --bs-gutter-y: 1rem;
+}
+
+.admin-metric-card,
+.admin-panel {
+    height: 100%;
+    padding: 1.1rem;
+    border: 1px solid #eee5e1;
+    border-radius: .85rem;
+    background: #fff;
+    box-shadow: 0 .3rem 1rem rgba(44, 30, 34, .055);
+}
+
+.admin-metric-card {
+    position: relative;
+    min-height: 150px;
+    overflow: hidden;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.admin-metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .6rem 1.35rem rgba(44, 30, 34, .1);
+}
+
+.admin-metric-icon,
+.admin-supply-icon,
+.admin-activity-icon {
+    display: inline-grid;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: .7rem;
+    color: var(--sanitec-vino);
+    background: #f8ecee;
+}
+
+.admin-metric-icon {
+    width: 2.45rem;
+    height: 2.45rem;
+    margin-bottom: .8rem;
+    font-size: 1.15rem;
+}
+
+.admin-metric-label {
+    min-height: 2.5em;
+    color: #65575a;
+    font-size: .84rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.admin-metric-value {
+    margin-top: .15rem;
+    color: #392b2f;
+    font-size: 1.8rem;
+    font-weight: 750;
+    line-height: 1.1;
+}
+
+.admin-metric-suffix {
+    color: #8a7a72;
+    font-size: .95rem;
+    font-weight: 600;
+}
+
+.admin-metric-note {
+    margin-top: .4rem;
+    color: #87797a;
+    font-size: .76rem;
+}
+
+.admin-note-separator {
+    padding: 0 .2rem;
+    color: #c9a961;
+}
+
+.admin-metric-alert {
+    border-color: #f0dfc9;
+    background: linear-gradient(145deg, #fff 45%, #fff9f0);
+}
+
+.admin-metric-alert .admin-metric-icon {
+    color: #94651a;
+    background: #fbf1db;
+}
+
+.admin-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-bottom: 1rem;
+}
+
+.admin-panel-heading h2 {
+    color: #392b2f;
+    font-weight: 700;
+}
+
+.admin-report-counter {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    min-height: 3.5rem;
+    padding: .65rem .8rem;
+    border: 1px solid #f0e9e6;
+    border-radius: .7rem;
+    background: #fcfaf9;
+}
+
+.admin-status-dot {
+    width: .55rem;
+    height: .55rem;
+    flex: 0 0 auto;
+    border-radius: 50%;
+}
+
+.admin-status-open {
+    background-color: #c64d58;
+}
+
+.admin-status-progress {
+    background-color: #d29a31;
+}
+
+.admin-status-closed {
+    background-color: #43856c;
+}
+
+.admin-report-count {
+    color: #392b2f;
+    font-size: 1.15rem;
+    font-weight: 750;
+}
+
+.admin-report-label {
+    color: #716366;
+    font-size: .82rem;
+}
+
+.admin-supply-callout {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: .8rem 1rem;
+    border: 1px solid #efe4cd;
+    border-radius: .7rem;
+    background: #fcf8ef;
+}
+
+.admin-supply-icon {
+    width: 2.35rem;
+    height: 2.35rem;
+    color: #89651e;
+    background: #f5ebd4;
+}
+
+.admin-supply-count {
+    color: #674d18;
+    font-size: 1.25rem;
+    font-weight: 750;
+}
+
+.admin-text-link {
+    color: var(--sanitec-vino);
+    font-size: .85rem;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.admin-text-link:hover {
+    color: var(--sanitec-vino-oscuro);
+    text-decoration: underline;
+}
+
+.admin-empty-state {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    min-height: 4rem;
+    padding: .85rem 1rem;
+    border-radius: .65rem;
+    color: #6d6263;
+    background: #faf8f7;
+}
+
+.admin-empty-state > i {
+    color: #54806c;
+    font-size: 1.15rem;
+}
+
+.admin-table {
+    --bs-table-bg: transparent;
+    font-size: .88rem;
+}
+
+.admin-table thead th {
+    padding-top: .7rem;
+    padding-bottom: .7rem;
+    border-bottom-color: #e8dfdc;
+    color: #786b6d;
+    font-size: .73rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.admin-table tbody td {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    border-bottom-color: #f0eae7;
+    color: #514548;
+}
+
+.admin-stock-badge,
+.admin-status-badge,
+.admin-priority-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: .25rem .55rem;
+    border-radius: 2rem;
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+.admin-stock-badge,
+.admin-priority-badge {
+    color: #825b17;
+    background: #fbf1da;
+}
+
+.admin-status-badge {
+    color: #8c3540;
+    background: #f9e9eb;
+}
+
+.admin-status-badge.admin-status-progress {
+    color: #805b16;
+    background: #fbf1da;
+}
+
+.admin-status-badge.admin-status-closed {
+    color: #376d57;
+    background: #e7f2ec;
+}
+
+.admin-activity-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+    padding: .85rem 0;
+    border-bottom: 1px solid #f0eae7;
+}
+
+.admin-activity-item:last-child {
+    border-bottom: 0;
+}
+
+.admin-activity-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+}
+
+.admin-activity-item strong {
+    color: #433538;
+    font-size: .9rem;
+}
+
+.admin-activity-item .small {
+    margin-top: .25rem;
+}
+
+.admin-dashboard .min-width-0 {
+    min-width: 0;
+}
+
+@media (max-width: 767.98px) {
+    .admin-welcome {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 1.1rem;
+    }
+
+    .admin-date {
+        align-self: flex-start;
+    }
+
+    .admin-metric-card {
+        min-height: 135px;
+    }
+
+    .admin-report-counter {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: .35rem;
+        padding: .55rem;
+    }
+
+    .admin-report-label {
+        width: 100%;
+        padding-left: .85rem;
     }
 }

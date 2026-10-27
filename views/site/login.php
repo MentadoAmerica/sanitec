@@ -6,6 +6,7 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use app\widgets\Alert;
 
 $this->title = 'Iniciar sesión';
 $this->params['breadcrumbs'][] = $this->title;
@@ -21,20 +22,19 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
 
             <!-- Panel de marca -->
             <div class="col-md-5 d-none d-md-flex login-brand-panel">
-                <div class="d-flex flex-column justify-content-between p-4 p-lg-5 w-100">
-                    <div>
-                        <?= Html::img(
-                            Yii::getAlias('@web/images/logo.jpg'),
-                            [
-                                'alt' => 'TecNM Matamoros',
-                                'class' => 'mb-4 bg-white rounded p-2',
-                                'height' => 70,
-                            ],
-                        ) ?>
-                    </div>
+                <div class="login-brand-content d-flex flex-column align-items-center justify-content-center p-4 p-lg-5 w-100 text-center">
+                    <?= Html::img(
+                        Yii::getAlias('@web/images/Gorila.png'),
+                        [
+                            'alt' => 'Mascota de SANITEC',
+                            'class' => 'login-gorila bg-white rounded-4 p-3 mb-4',
+                            'height' => 250,
+                            'width' => 250,
+                        ],
+                    ) ?>
                     <div>
                         <h2 class="fw-bold mb-3 login-brand-title">
-                            Bienvenido<br>a SANITEC
+                            Bienvenido a SANITEC
                         </h2>
                         <p class="opacity-75 mb-0 login-brand-text">
                             Sistema de gestión y supervisión de sanitarios del
@@ -50,17 +50,20 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <div class="text-center mb-4">
                         <div class="d-md-none mb-3">
                             <?= Html::img(
-                                Yii::getAlias('@web/images/logo.jpg'),
+                                Yii::getAlias('@web/images/Gorila.png'),
                                 [
                                     'alt' => 'TecNM Matamoros',
-                                    'class' => 'login-mobile-logo',
-                                    'height' => 50,
+                                    'class' => 'login-mobile-logo bg-white rounded-3 p-2',
+                                    'height' => 100,
+                                    'width' => 100,
                                 ],
                             ) ?>
                         </div>
                         <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
                         <p class="text-body-secondary small">Ingresa tus credenciales institucionales</p>
                     </div>
+
+                    <?= Alert::widget() ?>
 
                     <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
@@ -102,7 +105,8 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <?php ActiveForm::end(); ?>
 
                     <div class="text-body-secondary text-center mt-4 small">
-                        ¿No tienes cuenta? Contacta a Recursos Materiales.
+                        ¿Aún no tienes cuenta?
+                        <?= Html::a('Regístrate aquí', ['/site/registro'], ['class' => 'fw-semibold']) ?>
                     </div>
 
                 </div>
