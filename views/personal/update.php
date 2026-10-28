@@ -5,17 +5,25 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Personal $model */
 
-$this->title = 'Update Personal: ' . $model->id_personal;
-$this->params['breadcrumbs'][] = ['label' => 'Personals', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_personal, 'url' => ['view', 'id_personal' => $model->id_personal]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Editar registro de personal';
+$this->params['breadcrumbs'][] = ['label' => 'Personal de limpieza', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+
+$nombre = $model->usuario
+    ? $model->usuario->getNombreCompleto()
+    : $model->tipo_personal . ' sin cuenta';
 ?>
-<div class="personal-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<section class="admin-page">
+    <header class="admin-page-header">
+        <div>
+            <span class="admin-eyebrow">Administración</span>
+            <h1 class="admin-page-title">Editar registro de personal</h1>
+            <p class="admin-page-subtitle"><?= Html::encode($nombre) ?></p>
+        </div>
+    </header>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+    <div class="admin-card">
+        <?= $this->render('_form', ['model' => $model]) ?>
+    </div>
+</section>

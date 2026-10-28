@@ -5,17 +5,21 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Roles $model */
 
-$this->title = 'Update Roles: ' . $model->id_rol;
+$this->title = 'Editar rol';
 $this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_rol, 'url' => ['view', 'id_rol' => $model->id_rol]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="roles-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<section class="admin-page">
+    <header class="admin-page-header">
+        <div>
+            <span class="admin-eyebrow">Administración</span>
+            <h1 class="admin-page-title">Editar rol</h1>
+            <p class="admin-page-subtitle"><?= Html::encode($model->nombre) ?></p>
+        </div>
+    </header>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+    <div class="admin-card">
+        <?= $this->render('_form', ['model' => $model]) ?>
+    </div>
+</section>

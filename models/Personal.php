@@ -124,6 +124,13 @@ class Personal extends \yii\db\ActiveRecord
         return $this->hasOne(Usuarios::class, ['id_usuario' => 'id_usuario']);
     }
 
+    public function getNombreMostrar()
+{
+    if ($this->usuario) {
+        return $this->usuario->getNombreCompleto();
+    }
+    return ucfirst($this->tipo_personal) . ' · ' . $this->identificador;
+}
     /**
      * {@inheritdoc}
      * @return PersonalQuery the active query used by this AR class.

@@ -5,17 +5,21 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\TiposReporte $model */
 
-$this->title = 'Update Tipos Reporte: ' . $model->id_tipo_reporte;
-$this->params['breadcrumbs'][] = ['label' => 'Tipos Reportes', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_tipo_reporte, 'url' => ['view', 'id_tipo_reporte' => $model->id_tipo_reporte]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Editar tipo de reporte';
+$this->params['breadcrumbs'][] = ['label' => 'Tipos de reporte', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="tipos-reporte-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<section class="admin-page">
+    <header class="admin-page-header">
+        <div>
+            <span class="admin-eyebrow">Catálogo</span>
+            <h1 class="admin-page-title">Editar tipo de reporte</h1>
+            <p class="admin-page-subtitle"><?= Html::encode($model->nombre) ?></p>
+        </div>
+    </header>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+    <div class="admin-card">
+        <?= $this->render('_form', ['model' => $model]) ?>
+    </div>
+</section>

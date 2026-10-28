@@ -82,6 +82,32 @@ class Servicios extends \yii\db\ActiveRecord
         return $this->hasOne(Sanitarios::class, ['id_sanitario' => 'id_sanitario']);
     }
 
+    public function getDuracionMinutos()
+{
+    if ($this->hora_checkout === null) {
+        return null;
+    }
+    $diff = strtotime($this->hora_checkout) - strtotime($this->hora_checkin);
+    return max(0, (int) floor($diff / 60));
+}
+
+public function getDuracionFormateada()
+{
+    $m = $this->getDuracionMinutos();
+    if ($m === null) {
+        return 'en curso';
+    }
+    if ($m < 60) {
+        return $m . ' min';
+    }
+    return intdiv($m, 60) . ' h ' . ($m % 60) . ' min';
+}
+
+public function getEstaAbierto()
+{
+    return $this->hora_checkout === null;
+}
+
     /**
      * {@inheritdoc}
      * @return ServiciosQuery the active query used by this AR class.

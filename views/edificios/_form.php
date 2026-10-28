@@ -1,29 +1,53 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\Edificios $model */
-/** @var yii\widgets\ActiveForm $form */
+/** @var yii\bootstrap5\ActiveForm $form */
 ?>
 
-<div class="edificios-form">
+<div class="admin-form">
+    <?php $form = ActiveForm::begin([
+        'id' => 'edificios-form',
+        'fieldConfig' => [
+            'labelOptions' => ['class' => 'form-label'],
+            'inputOptions' => ['class' => 'form-control'],
+        ],
+    ]); ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+    <div class="row g-3">
+        <div class="col-md-8">
+            <?= $form->field($model, 'nombre')->textInput([
+                'maxlength' => true,
+                'placeholder' => 'Nombre o clave del edificio',
+            ]) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'estado')->dropDownList(
+                [1 => 'Activo', 0 => 'Inactivo'],
+                ['class' => 'form-select']
+            ) ?>
+        </div>
+        <div class="col-12">
+            <?= $form->field($model, 'ubicacion')->textInput([
+                'maxlength' => true,
+                'placeholder' => 'Ubicación dentro del instituto',
+            ]) ?>
+        </div>
+        <div class="col-12">
+            <?= $form->field($model, 'descripcion')->textarea([
+                'rows' => 4,
+                'placeholder' => 'Información adicional',
+            ]) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'ubicacion')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'estado')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <div class="admin-form-actions">
+        <?= Html::submitButton('Guardar', ['class' => 'btn-primary-admin']) ?>
+        <?= Html::a('Cancelar', ['index'], ['class' => 'btn-cancel-admin']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>

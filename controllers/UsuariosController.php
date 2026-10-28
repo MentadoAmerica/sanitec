@@ -2,40 +2,42 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Usuarios;
 use app\models\UsuariosSearch;
+use app\models\Roles;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
-/**
- * UsuariosController implements the CRUD actions for Usuarios model.
- */
 class UsuariosController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function () {
+                            // solo admin
+                            return (int) Yii::$app->user->identity->id_rol === 1;
+                        },
                     ],
                 ],
-            ]
-        );
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
 
-    /**
-     * Lists all Usuarios models.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
         $searchModel = new UsuariosSearch();
@@ -47,12 +49,6 @@ class UsuariosController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Usuarios model.
-     * @param int $id_usuario Id Usuario
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($id_usuario)
     {
         return $this->render('view', [
@@ -60,75 +56,60 @@ class UsuariosController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Usuarios model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
     public function actionCreate()
     {
         $model = new Usuarios();
+        $model->scenario = 'create';
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_usuario' => $model->id_usuario]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Usuario registrado correctamente.');
+            return $this->redirect(['index']);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->render('create', ['model' => $model]);
     }
 
-    /**
-     * Updates an existing Usuarios model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id_usuario Id Usuario
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id_usuario)
     {
         $model = $this->findModel($id_usuario);
+        $hashAnterior = $model->contrasena;
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_usuario' => $model->id_usuario]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            // limpia el campo para que beforeSave decida si hashea o conserva
+            if (empty($model->contrasena)) {
+                $model->contrasena = null;
+            }
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Usuario actualizado correctamente.');
+                return $this->redirect(['index']);
+            }
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        // en el formulario no se muestra el hash actual
+        $model->contrasena = '';
+        return $this->render('update', ['model' => $model]);
     }
 
-    /**
-     * Deletes an existing Usuarios model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id_usuario Id Usuario
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id_usuario)
     {
-        $this->findModel($id_usuario)->delete();
+        $model = $this->findModel($id_usuario);
 
+        // no permitir borrarse a sí mismo
+        if ((int) $model->id_usuario === (int) Yii::$app->user->id) {
+            Yii::$app->session->setFlash('error', 'No puedes eliminar tu propia cuenta.');
+            return $this->redirect(['index']);
+        }
+
+        $model->delete();
+        Yii::$app->session->setFlash('success', 'Usuario eliminado correctamente.');
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Usuarios model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id_usuario Id Usuario
-     * @return Usuarios the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id_usuario)
     {
         if (($model = Usuarios::findOne(['id_usuario' => $id_usuario])) !== null) {
             return $model;
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('El usuario solicitado no existe.');
     }
 }

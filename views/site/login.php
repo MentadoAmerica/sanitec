@@ -70,7 +70,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <div class="mb-3">
                         <?= $form->field($model, 'correo', [
                             'options' => ['class' => 'mb-0'],
-                            'template' => sprintf($htmlIcon, '&#128231;'),
+                            //'template' => sprintf($htmlIcon, '&#128231;'),
                             'inputOptions' => [
                                 'class' => 'form-control',
                                 'placeholder' => 'tu-correo@itmatamoros.edu.mx',
@@ -83,7 +83,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <div class="mb-4">
                         <?= $form->field($model, 'contrasena', [
                             'options' => ['class' => 'mb-0'],
-                            'template' => sprintf($htmlIcon, '&#128274;'),
+                            //'template' => sprintf($htmlIcon, '&#128274;'),
                             'inputOptions' => [
                                 'class' => 'form-control',
                                 'placeholder' => 'Contraseña',

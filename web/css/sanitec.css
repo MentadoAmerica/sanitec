@@ -838,3 +838,986 @@ body.sidebar-collapsed .sanitec-main {
         padding-left: .85rem;
     }
 }
+
+/* crud admin - panel de administracion */
+
+.admin-page {
+    padding: 8px 0 32px;
+}
+
+.admin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.admin-eyebrow {
+    display: inline-block;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #a88a7a;
+    margin-bottom: 2px;
+}
+
+.admin-page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #2c1e22;
+    margin: 2px 0 4px;
+    line-height: 1.15;
+}
+
+.admin-page-subtitle {
+    color: #8a7a72;
+    font-size: .9rem;
+    margin: 0;
+}
+
+.admin-page-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* tarjeta contenedora */
+
+.admin-card {
+    background: #fbf8f3;
+    border: 1px solid #e6dcd6;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 2px 10px rgba(123, 30, 47, 0.06);
+}
+
+/* boton principal del panel */
+
+.btn-primary-admin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #7b1e2f !important;
+    border: 1px solid #7b1e2f !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: .92rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    line-height: 1.2;
+    box-shadow: 0 2px 6px rgba(123, 30, 47, 0.22);
+    transition: background-color .15s, border-color .15s, box-shadow .15s, transform .1s;
+}
+
+.btn-primary-admin:hover,
+.btn-primary-admin:focus {
+    background-color: #5a1522 !important;
+    border-color: #5a1522 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(90, 21, 34, 0.3);
+    text-decoration: none;
+}
+
+.btn-primary-admin:active {
+    transform: translateY(1px);
+}
+
+.btn-cancel-admin {
+    display: inline-flex;
+    align-items: center;
+    background-color: transparent;
+    border: 1px solid #d6c8c1;
+    color: #5a1522;
+    font-weight: 500;
+    font-size: .92rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    line-height: 1.2;
+    transition: background-color .15s, border-color .15s;
+}
+
+.btn-cancel-admin:hover,
+.btn-cancel-admin:focus {
+    background-color: #f2ebe3;
+    color: #5a1522;
+    border-color: #b8a99f;
+    text-decoration: none;
+}
+
+/* botones de accion en la tabla */
+
+.btn-action-view,
+.btn-action-edit,
+.btn-action-delete {
+    display: inline-block;
+    border-radius: 6px;
+    font-size: .8rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    text-decoration: none;
+    line-height: 1.2;
+    margin-right: 4px;
+    transition: background-color .15s, border-color .15s, color .15s;
+}
+
+.btn-action-view {
+    background-color: #f2ebe3;
+    color: #5a1522;
+    border: 1px solid #e6dcd6;
+}
+
+.btn-action-view:hover {
+    background-color: #e6dcd6;
+    color: #5a1522;
+    text-decoration: none;
+}
+
+.btn-action-edit {
+    background-color: #7b1e2f;
+    color: #ffffff;
+    border: 1px solid #7b1e2f;
+}
+
+.btn-action-edit:hover {
+    background-color: #5a1522;
+    color: #ffffff;
+    border-color: #5a1522;
+    text-decoration: none;
+}
+
+.btn-action-delete {
+    background-color: transparent;
+    color: #a13446;
+    border: 1px solid #e8c5cc;
+}
+
+.btn-action-delete:hover {
+    background-color: #fbeaee;
+    color: #7b1e2f;
+    border-color: #a13446;
+    text-decoration: none;
+}
+
+/* tabla */
+
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: .9rem;
+    color: #3a2b2f;
+}
+
+.admin-table thead th {
+    background-color: #f2ebe3;
+    color: #5a1522;
+    font-weight: 600;
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 12px 14px;
+    border-bottom: 1px solid #e6dcd6;
+    white-space: nowrap;
+}
+
+/* corrige encabezados azules de gridview */
+
+.admin-table thead th a {
+    color: #5a1522 !important;
+    text-decoration: none !important;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.admin-table thead th a:hover,
+.admin-table thead th a:focus {
+    color: #7b1e2f !important;
+    text-decoration: none !important;
+}
+
+/*.admin-table thead th a::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-left: 2px;
+    opacity: .35;
+    background-image: linear-gradient(#7b1e2f, #7b1e2f), linear-gradient(#7b1e2f, #7b1e2f);
+    background-size: 8px 1.5px, 1.5px 8px;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: rotate(0);
+}*/
+
+.admin-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f0e8e2;
+    color: #3a2b2f;
+    vertical-align: middle;
+}
+
+.admin-table tbody tr:hover td {
+    background-color: #faf5ee;
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* inputs de filtro dentro de la tabla */
+
+.admin-table input.form-control,
+.admin-table select.form-select {
+    font-size: .85rem;
+    padding: 5px 9px;
+    border-radius: 6px;
+    border: 1px solid #e6dcd6;
+    background-color: #fffdf9;
+    color: #3a2b2f;
+}
+
+.admin-table input.form-control:focus,
+.admin-table select.form-select:focus {
+    border-color: #7b1e2f;
+    box-shadow: 0 0 0 2px rgba(123, 30, 47, 0.12);
+    background-color: #ffffff;
+}
+
+/* resumen y paginacion de gridview */
+
+.admin-card .summary {
+    color: #8a7a72;
+    font-size: .85rem;
+    padding: 12px 2px 0;
+}
+
+.admin-card .pagination {
+    margin-top: 14px;
+}
+
+.admin-card .pagination .page-link {
+    color: #5a1522;
+    border-color: #e6dcd6;
+    font-size: .85rem;
+}
+
+.admin-card .pagination .page-item.active .page-link {
+    background-color: #7b1e2f;
+    border-color: #7b1e2f;
+    color: #ffffff;
+}
+
+.admin-card .pagination .page-link:hover {
+    background-color: #f2ebe3;
+    color: #7b1e2f;
+}
+
+/* badges de estado */
+
+.admin-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: .75rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.admin-badge-active {
+    background-color: #e6f2e6;
+    color: #2f6b3a;
+}
+
+.admin-badge-inactive {
+    background-color: #f2e8e3;
+    color: #8a4a56;
+}
+
+/* formulario */
+
+.admin-form .form-label {
+    font-weight: 600;
+    font-size: .85rem;
+    color: #5a1522;
+    margin-bottom: 4px;
+}
+
+.admin-form .form-control,
+.admin-form .form-select {
+    background-color: #fffdf9;
+    border: 1px solid #e6dcd6;
+    border-radius: 8px;
+    padding: .55rem .8rem;
+    font-size: .9rem;
+    color: #3a2b2f;
+}
+
+.admin-form .form-control:focus,
+.admin-form .form-select:focus {
+    border-color: #7b1e2f;
+    box-shadow: 0 0 0 2px rgba(123, 30, 47, 0.12);
+    background-color: #ffffff;
+}
+
+.admin-form .help-block,
+.admin-form .invalid-feedback {
+    color: #a13446;
+    font-size: .8rem;
+}
+
+.admin-form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #f0e8e2;
+}
+
+/* alertas flash */
+
+.alert-success {
+    background-color: #e6f2e6;
+    border: 1px solid #b8d8b8;
+    color: #2f6b3a;
+    border-radius: 8px;
+    font-size: .9rem;
+}
+
+/* ajuste de encabezados de tabla: sin indicadores de orden */
+
+.admin-table thead th {
+    cursor: default;
+}
+
+.admin-table thead th a {
+    pointer-events: none;
+    cursor: default;
+}
+
+/* chip de codigo qr */
+
+.admin-code-chip {
+    display: inline-block;
+    background-color: #f2ebe3;
+    color: #5a1522;
+    border: 1px solid #e6dcd6;
+    border-radius: 5px;
+    padding: 2px 8px;
+    font-size: .78rem;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* chips de conteo en la tabla de roles */
+
+.admin-count-chip {
+    display: inline-block;
+    background-color: #f2ebe3;
+    color: #5a1522;
+    border: 1px solid #e6dcd6;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: .78rem;
+    font-weight: 600;
+    min-width: 28px;
+    text-align: center;
+}
+
+.admin-muted-count {
+    color: #b8a99f;
+    font-size: .8rem;
+    font-style: italic;
+}
+
+/* alerta de error (para el bloqueo de borrado de roles) */
+
+.alert-danger {
+    background-color: #fbeaee;
+    border: 1px solid #e8c5cc;
+    color: #7b1e2f;
+    border-radius: 8px;
+    font-size: .9rem;
+}
+
+/* boton secundario del panel (contorno vino) */
+
+.btn-secondary-admin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 1px solid #7b1e2f;
+    color: #7b1e2f;
+    font-weight: 600;
+    font-size: .92rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    line-height: 1.2;
+    transition: background-color .15s, border-color .15s, color .15s;
+}
+
+.btn-secondary-admin:hover,
+.btn-secondary-admin:focus {
+    background-color: #7b1e2f;
+    border-color: #7b1e2f;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.btn-secondary-admin i {
+    font-size: .85rem;
+}
+
+/* tabs de horarios */
+
+.admin-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-tab-admin {
+    display: inline-block;
+    padding: 9px 20px;
+    background: #f2ebe3;
+    color: #5a1522;
+    border: 1px solid #e6dcd6;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: .9rem;
+    font-weight: 600;
+    transition: background-color .15s, color .15s, border-color .15s;
+}
+
+.btn-tab-admin:hover,
+.btn-tab-admin:focus {
+    background: #e6dcd6;
+    color: #7b1e2f;
+    text-decoration: none;
+}
+
+.btn-tab-admin.active {
+    background: #7b1e2f;
+    border-color: #7b1e2f;
+    color: #ffffff;
+}
+
+/* subencabezado de seccion dentro de la pagina */
+
+.admin-subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.admin-subtitle {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #2c1e22;
+    margin: 0;
+}
+
+/* tabla semanal */
+
+.admin-week-table thead th {
+    text-align: center;
+    font-size: .72rem;
+    letter-spacing: .05em;
+}
+
+.admin-week-table thead th:first-child {
+    text-align: left;
+}
+
+.admin-week-table tbody td {
+    text-align: center;
+    vertical-align: middle;
+    min-width: 84px;
+    padding: 8px 6px;
+}
+
+.admin-week-table tbody td:first-child {
+    text-align: left;
+    min-width: 160px;
+}
+
+.admin-week-cell {
+    padding: 8px 4px !important;
+}
+
+/* chip de horario dentro de la celda */
+
+.admin-schedule-chip {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    background: #fffdf9;
+    border: 1px solid #e6dcd6;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: .76rem;
+    line-height: 1.1;
+    min-width: 70px;
+}
+
+.admin-schedule-time {
+    color: #5a1522;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.admin-schedule-actions {
+    display: flex;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.admin-mini-btn {
+    color: #8a7a72;
+    text-decoration: none;
+    font-size: .7rem;
+    padding: 1px 3px;
+    border-radius: 3px;
+    transition: color .15s, background-color .15s;
+}
+
+.admin-mini-btn:hover {
+    color: #7b1e2f;
+    background: #f2ebe3;
+    text-decoration: none;
+}
+
+.admin-mini-danger {
+    color: #a13446;
+}
+
+.admin-mini-danger:hover {
+    color: #7b1e2f;
+    background: #fbeaee;
+}
+
+/* celda con boton "+" cuando no hay horario */
+
+.admin-add-schedule {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px dashed #d6c8c1;
+    border-radius: 50%;
+    color: #b8a99f;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: .9rem;
+    line-height: 1;
+    transition: border-color .15s, color .15s, background-color .15s;
+}
+
+.admin-add-schedule:hover,
+.admin-add-schedule:focus {
+    border-color: #7b1e2f;
+    color: #7b1e2f;
+    background: #faf5ee;
+    text-decoration: none;
+}
+
+/* estado vacio reutilizable */
+
+.admin-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #8a7a72;
+    font-size: .92rem;
+    padding: 40px 20px;
+    gap: 6px;
+}
+
+.admin-empty-state .bi {
+    font-size: 2rem;
+    color: #d6c8c1;
+}
+
+/* badge de advertencia (amarillo suave) */
+
+.admin-badge-warning {
+    background-color: #fbf3e0;
+    color: #8a6218;
+}
+
+/* secciones del formulario */
+
+.admin-form-section {
+    padding: 18px 0;
+    border-bottom: 1px solid #f0e8e2;
+}
+
+.admin-form-section:first-child {
+    padding-top: 0;
+}
+
+.admin-form-section:last-of-type {
+    border-bottom: none;
+}
+
+.admin-form-section-title {
+    font-size: .95rem;
+    font-weight: 700;
+    color: #5a1522;
+    margin: 0 0 4px;
+}
+
+.admin-form-section-hint {
+    color: #8a7a72;
+    font-size: .85rem;
+    margin: 0 0 12px;
+}
+
+.admin-form-section-warning {
+    background: #fdf8ec;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #f0e0b8;
+    margin-top: 12px;
+}
+
+.admin-form-section-warning .admin-form-section-title {
+    color: #8a6218;
+}
+
+/* tabla de detalle reutiliza .admin-table pero sin hover */
+
+.admin-detail-table tbody tr:hover td {
+    background-color: transparent;
+}
+
+.admin-detail-table th {
+    width: 220px;
+    background-color: #f2ebe3;
+    color: #5a1522;
+    font-weight: 600;
+    font-size: .82rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    padding: 12px 14px;
+    border-bottom: 1px solid #e6dcd6;
+}
+
+.admin-detail-table td {
+    background: #fffdf9;
+}
+
+/* tarjetas resumen del index de reportes */
+
+.admin-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.admin-stat-card {
+    background: #fbf8f3;
+    border: 1px solid #e6dcd6;
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+
+.admin-stat-label {
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: #8a7a72;
+    font-weight: 600;
+}
+
+.admin-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c1e22;
+    line-height: 1.1;
+    margin-top: 4px;
+}
+
+/* badges de estado de reporte */
+
+.admin-badge-info {
+    background-color: #e8eef7;
+    color: #2b4a7a;
+}
+
+.admin-badge-muted {
+    background-color: #eeeae6;
+    color: #6b5c55;
+}
+
+/* prioridades */
+
+.admin-prioridad {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: .75rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.admin-prioridad-baja {
+    background-color: #eef2e9;
+    color: #4a6b34;
+}
+
+.admin-prioridad-normal {
+    background-color: #f2ebe3;
+    color: #5a1522;
+}
+
+.admin-prioridad-alta {
+    background-color: #fbeede;
+    color: #8a4a18;
+}
+
+.admin-prioridad-urgente {
+    background-color: #fbeaee;
+    color: #7b1e2f;
+}
+
+/* timeline de historial */
+
+.admin-timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+.admin-timeline-item {
+    position: relative;
+    padding: 0 0 18px 22px;
+}
+
+.admin-timeline-item::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 18px;
+    bottom: 0;
+    width: 1px;
+    background: #e6dcd6;
+}
+
+.admin-timeline-item:last-child::before {
+    display: none;
+}
+
+.admin-timeline-marker {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #7b1e2f;
+    border: 2px solid #fbf8f3;
+    box-shadow: 0 0 0 1px #7b1e2f;
+}
+
+.admin-timeline-header {
+    font-size: .85rem;
+    font-weight: 600;
+    color: #5a1522;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.admin-timeline-header .bi {
+    font-size: .7rem;
+    color: #b8a99f;
+}
+
+.admin-timeline-meta {
+    font-size: .75rem;
+    color: #8a7a72;
+    margin-top: 2px;
+}
+
+.admin-timeline-note {
+    font-size: .82rem;
+    color: #3a2b2f;
+    margin: 6px 0 0;
+    background: #faf5ee;
+    border-left: 2px solid #e6dcd6;
+    padding: 6px 10px;
+    border-radius: 4px;
+}
+
+/* ajuste de detail view para que combine con el tema */
+
+.admin-detail-table th {
+    width: 220px;
+}
+
+/* tarjetas resumen de inventario */
+
+.admin-stat-warning {
+    background: #fdf8ec;
+    border-color: #f0e0b8;
+}
+
+.admin-stat-warning .admin-stat-value {
+    color: #8a6218;
+}
+
+/* alertas inline dentro de la pagina */
+
+.admin-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: .9rem;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.admin-alert-warning {
+    background: #fdf8ec;
+    border: 1px solid #f0e0b8;
+    color: #8a6218;
+}
+
+.admin-alert-warning .bi {
+    color: #d49a2a;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+/* fila resaltada de material con stock bajo */
+
+.admin-row-warning td {
+    background-color: #fdf8ec !important;
+}
+
+.admin-row-warning:hover td {
+    background-color: #faf1d9 !important;
+}
+
+/* valores de stock en tabla */
+
+.admin-stock-value {
+    font-weight: 700;
+    color: #2c1e22;
+}
+
+/* badge para stock sin existencia */
+
+.admin-badge-danger {
+    background-color: #fbeaee;
+    color: #7b1e2f;
+}
+
+/* barra visual de nivel de stock */
+
+.admin-stock-bar-wrapper {
+    width: 100%;
+    height: 14px;
+    background: #f0e8e2;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 8px 0 4px;
+}
+
+.admin-stock-bar {
+    height: 100%;
+    border-radius: 20px;
+    transition: width .3s ease;
+    min-width: 4px;
+}
+
+.admin-stock-bar-ok {
+    background: linear-gradient(90deg, #a4c98f 0%, #6da34d 100%);
+}
+
+.admin-stock-bar-warning {
+    background: linear-gradient(90deg, #f2c977 0%, #d49a2a 100%);
+}
+
+.admin-stock-bar-danger {
+    background: linear-gradient(90deg, #d67a8a 0%, #a13446 100%);
+}
+
+/* leyenda de stock */
+
+.admin-stock-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.admin-stock-legend-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: .85rem;
+}
+
+.admin-stock-legend-label {
+    color: #8a7a72;
+}
+
+.admin-stock-legend-value {
+    color: #2c1e22;
+    font-weight: 700;
+}
+
+/* lista de horarios asignados en el detalle del alumno */
+
+.admin-schedule-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-schedule-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    background: #faf5ee;
+    border: 1px solid #f0e8e2;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: .88rem;
+}
+
+.admin-schedule-list-item strong {
+    color: #5a1522;
+    font-weight: 600;
+}

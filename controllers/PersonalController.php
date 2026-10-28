@@ -2,40 +2,42 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Personal;
 use app\models\PersonalSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\db\IntegrityException;
 
-/**
- * PersonalController implements the CRUD actions for Personal model.
- */
 class PersonalController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function () {
+                            // solo admin
+                            return (int) Yii::$app->user->identity->id_rol === 1;
+                        },
                     ],
                 ],
-            ]
-        );
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
 
-    /**
-     * Lists all Personal models.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
         $searchModel = new PersonalSearch();
@@ -47,12 +49,6 @@ class PersonalController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Personal model.
-     * @param int $id_personal Id Personal
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($id_personal)
     {
         return $this->render('view', [
@@ -60,75 +56,53 @@ class PersonalController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Personal model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
     public function actionCreate()
     {
         $model = new Personal();
+        $model->tipo_personal = 'intendente';
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_personal' => $model->id_personal]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Registro de personal creado correctamente.');
+            return $this->redirect(['index']);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->render('create', ['model' => $model]);
     }
 
-    /**
-     * Updates an existing Personal model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id_personal Id Personal
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id_personal)
     {
         $model = $this->findModel($id_personal);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_personal' => $model->id_personal]);
+            Yii::$app->session->setFlash('success', 'Registro de personal actualizado correctamente.');
+            return $this->redirect(['index']);
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->render('update', ['model' => $model]);
     }
 
-    /**
-     * Deletes an existing Personal model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id_personal Id Personal
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id_personal)
     {
-        $this->findModel($id_personal)->delete();
+        $model = $this->findModel($id_personal);
+
+        try {
+            $model->delete();
+            Yii::$app->session->setFlash('success', 'Registro de personal eliminado correctamente.');
+        } catch (IntegrityException $e) {
+            Yii::$app->session->setFlash(
+                'error',
+                'No se puede eliminar este registro porque tiene servicios u otros registros asociados. Puedes marcarlo como inactivo.'
+            );
+        }
 
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Personal model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id_personal Id Personal
-     * @return Personal the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id_personal)
     {
         if (($model = Personal::findOne(['id_personal' => $id_personal])) !== null) {
             return $model;
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('El registro de personal no existe.');
     }
 }

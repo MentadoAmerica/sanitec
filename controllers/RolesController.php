@@ -2,40 +2,42 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Roles;
 use app\models\RolesSearch;
+use app\models\Usuarios;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
-/**
- * RolesController implements the CRUD actions for Roles model.
- */
 class RolesController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function () {
+                            // solo admin
+                            return (int) Yii::$app->user->identity->id_rol === 1;
+                        },
                     ],
                 ],
-            ]
-        );
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
 
-    /**
-     * Lists all Roles models.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
         $searchModel = new RolesSearch();
@@ -47,12 +49,6 @@ class RolesController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Roles model.
-     * @param int $id_rol Id Rol
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($id_rol)
     {
         return $this->render('view', [
@@ -60,75 +56,53 @@ class RolesController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Roles model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
     public function actionCreate()
     {
         $model = new Roles();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_rol' => $model->id_rol]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Rol registrado correctamente.');
+            return $this->redirect(['index']);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->render('create', ['model' => $model]);
     }
 
-    /**
-     * Updates an existing Roles model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id_rol Id Rol
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id_rol)
     {
         $model = $this->findModel($id_rol);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_rol' => $model->id_rol]);
+            Yii::$app->session->setFlash('success', 'Rol actualizado correctamente.');
+            return $this->redirect(['index']);
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->render('update', ['model' => $model]);
     }
 
-    /**
-     * Deletes an existing Roles model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id_rol Id Rol
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id_rol)
     {
-        $this->findModel($id_rol)->delete();
+        $model = $this->findModel($id_rol);
 
+        // no se puede borrar si hay usuarios con este rol
+        if (Usuarios::find()->where(['id_rol' => $id_rol])->exists()) {
+            Yii::$app->session->setFlash(
+                'error',
+                'No se puede eliminar el rol porque tiene usuarios asignados. Puedes marcarlo como inactivo.'
+            );
+            return $this->redirect(['index']);
+        }
+
+        $model->delete();
+        Yii::$app->session->setFlash('success', 'Rol eliminado correctamente.');
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Roles model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id_rol Id Rol
-     * @return Roles the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id_rol)
     {
         if (($model = Roles::findOne(['id_rol' => $id_rol])) !== null) {
             return $model;
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('El rol solicitado no existe.');
     }
 }

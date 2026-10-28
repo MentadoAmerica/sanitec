@@ -2,40 +2,43 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\TiposReporte;
 use app\models\TiposReporteSearch;
+use app\models\Reportes;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\db\IntegrityException;
 
-/**
- * TiposReporteController implements the CRUD actions for TiposReporte model.
- */
 class TiposReporteController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function () {
+                            // solo admin
+                            return (int) Yii::$app->user->identity->id_rol === 1;
+                        },
                     ],
                 ],
-            ]
-        );
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
 
-    /**
-     * Lists all TiposReporte models.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
         $searchModel = new TiposReporteSearch();
@@ -47,88 +50,52 @@ class TiposReporteController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single TiposReporte model.
-     * @param int $id_tipo_reporte Id Tipo Reporte
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id_tipo_reporte)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id_tipo_reporte),
-        ]);
-    }
-
-    /**
-     * Creates a new TiposReporte model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
     public function actionCreate()
     {
         $model = new TiposReporte();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_tipo_reporte' => $model->id_tipo_reporte]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Tipo de reporte registrado correctamente.');
+            return $this->redirect(['index']);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->render('create', ['model' => $model]);
     }
 
-    /**
-     * Updates an existing TiposReporte model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id_tipo_reporte Id Tipo Reporte
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id_tipo_reporte)
     {
         $model = $this->findModel($id_tipo_reporte);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_tipo_reporte' => $model->id_tipo_reporte]);
+            Yii::$app->session->setFlash('success', 'Tipo de reporte actualizado correctamente.');
+            return $this->redirect(['index']);
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->render('update', ['model' => $model]);
     }
 
-    /**
-     * Deletes an existing TiposReporte model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id_tipo_reporte Id Tipo Reporte
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id_tipo_reporte)
     {
-        $this->findModel($id_tipo_reporte)->delete();
+        $model = $this->findModel($id_tipo_reporte);
+
+        try {
+            $model->delete();
+            Yii::$app->session->setFlash('success', 'Tipo de reporte eliminado correctamente.');
+        } catch (IntegrityException $e) {
+            Yii::$app->session->setFlash(
+                'error',
+                'No se puede eliminar este tipo de reporte porque tiene reportes asociados. Puedes marcarlo como inactivo.'
+            );
+        }
 
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the TiposReporte model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id_tipo_reporte Id Tipo Reporte
-     * @return TiposReporte the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id_tipo_reporte)
     {
         if (($model = TiposReporte::findOne(['id_tipo_reporte' => $id_tipo_reporte])) !== null) {
             return $model;
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('El tipo de reporte solicitado no existe.');
     }
 }
