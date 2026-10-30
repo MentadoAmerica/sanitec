@@ -15,6 +15,7 @@ use yii\grid\GridView;
 
 $this->title = 'Inventario de materiales';
 $this->params['breadcrumbs'][] = $this->title;
+$esAdmin = (int) Yii::$app->user->identity->id_rol === 1;
 ?>
 
 <section class="admin-page">
@@ -27,11 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
         </div>
         <div class="admin-page-actions">
+           <?php if ($esAdmin): ?>
             <?= Html::a(
                 '<i class="bi bi-plus-lg me-2"></i>Crear material',
                 ['create'],
                 ['class' => 'btn-primary-admin', 'encode' => false]
             ) ?>
+            <?php endif; ?>
         </div>
     </header>
 
@@ -159,10 +162,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'class' => ActionColumn::class,
-                    'template' => '{view} {update} {delete}',
+                    'template' => $esAdmin ? '{history} {view} {update} {delete}' : '{history} {view}',
                     'header' => 'Acciones',
-                    'headerOptions' => ['style' => 'width: 220px'],
+                    'headerOptions' => ['style' => 'width: ' . ($esAdmin ? '320px' : '180px')],
                     'buttons' => [
+                        'history' => function ($url, $model) {
+                            return Html::a('Historial', [
+                                '/movimientos-inventario/index',
+                                'id_material' => $model->id_material,
+                            ], ['class' => 'btn-action-view']);
+                        },
                         'view' => function ($url) {
                             return Html::a('Ver', $url, ['class' => 'btn-action-view']);
                         },

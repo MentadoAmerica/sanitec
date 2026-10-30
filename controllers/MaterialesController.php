@@ -19,13 +19,21 @@ class MaterialesController extends Controller
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
+                    // admin: acceso total
                     [
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function () {
-                            // admin y almacen
-                            $rol = (int) Yii::$app->user->identity->id_rol;
-                            return in_array($rol, [1, 4], true);
+                            return (int) Yii::$app->user->identity->id_rol === 1;
+                        },
+                    ],
+                    // almacén: solo consulta
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function () {
+                            return (int) Yii::$app->user->identity->id_rol === 4;
                         },
                     ],
                 ],

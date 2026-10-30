@@ -19,6 +19,8 @@ use yii\mail\MailerInterface;
 use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
+use app\models\AlumnosServicioSocial;
+use app\models\Personal;
 
 class SitioController extends Controller
 {
@@ -81,17 +83,219 @@ class SitioController extends Controller
      * @return string
      */
     public function actionIndex(): string
-    {
-        if (Yii::$app->user->isGuest) {
-            return $this->render('index');
-        }
-
-        if ((int) Yii::$app->user->identity->id_rol === 1) {
-            return $this->render('admin-dashboard', $this->getAdminDashboardData());
-        }
-
+{
+    if (Yii::$app->user->isGuest) {
         return $this->render('index');
     }
+
+    $rol = (int) Yii::$app->user->identity->id_rol;
+
+    switch ($rol) {
+        case 1:
+            return $this->render('admin-dashboard', $this->getAdminDashboardData());
+        case 2:
+            return $this->render('dashboard-servicio-social', $this->getServicioSocialData());
+        case 3:
+            return $this->render('dashboard-intendente', $this->getIntendenteData());
+        case 4:
+            return $this->render('dashboard-almacen', $this->getAlmacenData());
+        default:
+            return $this->render('index');
+    }
+}
+
+private function getServicioSocialData(): array
+{
+    $db = Yii::$app->db;
+
+    $reportesPendientes = (int) $db->createCommand(
+        "SELECT COUNT(*) FROM {{%reportes}} WHERE LOWER(estado) = 'pendiente'"
+    )->queryScalar();
+
+    $reportesEnAtencion = (int) $db->createCommand(
+        "SELECT COUNT(*) FROM {{%reportes}} WHERE LOWER(estado) IN ('en atención', 'en atencion')"
+    )->queryScalar();
+
+    $reportesAtendidosHoy = (int) $db->createCommand(
+        "SELECT COUNT(*) FROM {{%reportes}}
+         WHERE DATE(fecha_cierre) = CURDATE()
+           AND LOWER(estado) IN ('atendido', 'cerrado')"
+    )->queryScalar();
+
+    $rondasPendientesHoy = (int) $db->createCommand(
+        "SELECT COUNT(*) FROM {{%rondas_programadas}}
+         WHERE fecha_programada = CURDATE() AND LOWER(estado) = 'pendiente'"
+    )->queryScalar();
+
+    $rondasCompletadasHoy = (int) $db->createCommand(
+        "SELECT COUNT(*) FROM {{%rondas_programadas}}
+         WHERE fecha_programada = CURDATE()
+           AND LOWER(estado) IN ('completada', 'completado')"
+    )->queryScalar();
+
+    $reportesActivos = $db->createCommand(
+        "SELECT r.id_reporte, r.estado, r.fecha_hora_reporte,
+                COALESCE(NULLIF(r.prioridad, ''), tr.prioridad) AS prioridad_efectiva,
+                tr.nombre AS tipo_nombre, tr.categoria,
+                s.nombre AS sanitario_nombre, e.nombre AS edificio_nombre
+         FROM {{%reportes}} r
+         INNER JOIN {{%tipos_reporte}} tr ON tr.id_tipo_reporte = r.id_tipo_reporte
+         INNER JOIN {{%sanitarios}} s ON s.id_sanitario = r.id_sanitario
+         INNER JOIN {{%edificios}} e ON e.id_edificio = s.id_edificio
+         WHERE LOWER(r.estado) IN ('pendiente', 'en atención', 'en atencion')
+         ORDER BY
+             CASE LOWER(COALESCE(NULLIF(r.prioridad, ''), tr.prioridad))
+                 WHEN 'urgente' THEN 0
+                 WHEN 'alta' THEN 1
+                 WHEN 'normal' THEN 2
+                 WHEN 'baja' THEN 3
+                 ELSE 4
+             END ASC,
+             r.fecha_hora_reporte ASC
+         LIMIT 20"
+    )->queryAll();
+
+    $rondasPendientes = $db->createCommand(
+        "SELECT rp.id_ronda, rp.hora_programada,
+                s.nombre AS sanitario_nombre, e.nombre AS edificio_nombre
+         FROM {{%rondas_programadas}} rp
+         INNER JOIN {{%sanitarios}} s ON s.id_sanitario = rp.id_sanitario
+         INNER JOIN {{%edificios}} e ON e.id_edificio = s.id_edificio
+         WHERE rp.fecha_programada = CURDATE() AND LOWER(rp.estado) = 'pendiente'
+         ORDER BY rp.hora_programada ASC
+         LIMIT 10"
+    )->queryAll();
+
+    return [
+        'reportesPendientes' => $reportesPendientes,
+        'reportesEnAtencion' => $reportesEnAtencion,
+        'reportesAtendidosHoy' => $reportesAtendidosHoy,
+        'rondasPendientesHoy' => $rondasPendientesHoy,
+        'rondasCompletadasHoy' => $rondasCompletadasHoy,
+        'reportesActivos' => $reportesActivos,
+        'rondasPendientes' => $rondasPendientes,
+    ];
+}
+
+private function getIntendenteData(): array
+{
+    $db = Yii::$app->db;
+
+    $reportesPendientes = $db->createCommand(
+        "SELECT r.id_reporte, r.fecha_hora_reporte, r.descripcion,
+                COALESCE(NULLIF(r.prioridad, ''), tr.prioridad) AS prioridad_efectiva,
+                tr.nombre AS tipo_nombre, tr.categoria,
+                s.nombre AS sanitario_nombre, e.nombre AS edificio_nombre
+         FROM {{%reportes}} r
+         INNER JOIN {{%tipos_reporte}} tr ON tr.id_tipo_reporte = r.id_tipo_reporte
+         INNER JOIN {{%sanitarios}} s ON s.id_sanitario = r.id_sanitario
+         INNER JOIN {{%edificios}} e ON e.id_edificio = s.id_edificio
+         WHERE LOWER(r.estado) = 'pendiente'
+         ORDER BY
+             CASE LOWER(COALESCE(NULLIF(r.prioridad, ''), tr.prioridad))
+                 WHEN 'urgente' THEN 0
+                 WHEN 'alta' THEN 1
+                 WHEN 'normal' THEN 2
+                 WHEN 'baja' THEN 3
+                 ELSE 4
+             END ASC,
+             r.fecha_hora_reporte ASC"
+    )->queryAll();
+
+    $reportesEnAtencion = $db->createCommand(
+        "SELECT r.id_reporte, r.fecha_hora_reporte,
+                COALESCE(NULLIF(r.prioridad, ''), tr.prioridad) AS prioridad_efectiva,
+                tr.nombre AS tipo_nombre,
+                s.nombre AS sanitario_nombre, e.nombre AS edificio_nombre
+         FROM {{%reportes}} r
+         INNER JOIN {{%tipos_reporte}} tr ON tr.id_tipo_reporte = r.id_tipo_reporte
+         INNER JOIN {{%sanitarios}} s ON s.id_sanitario = r.id_sanitario
+         INNER JOIN {{%edificios}} e ON e.id_edificio = s.id_edificio
+         WHERE LOWER(r.estado) IN ('en atención', 'en atencion')
+         ORDER BY r.fecha_hora_reporte ASC"
+    )->queryAll();
+
+    $atendidosHoy = (int) $db->createCommand(
+        "SELECT COUNT(*) FROM {{%reportes}}
+         WHERE DATE(fecha_cierre) = CURDATE()
+           AND LOWER(estado) IN ('atendido', 'cerrado')"
+    )->queryScalar();
+
+    return [
+        'reportesPendientes' => $reportesPendientes,
+        'reportesEnAtencion' => $reportesEnAtencion,
+        'totalPendientes' => count($reportesPendientes),
+        'totalEnAtencion' => count($reportesEnAtencion),
+        'atendidosHoy' => $atendidosHoy,
+    ];
+}
+
+private function getAlmacenData(): array
+{
+    $db = Yii::$app->db;
+
+    $horaActual = (int) date('H');
+    $turno = $horaActual < 14 ? 'Matutino' : 'Vespertino';
+
+    $materialesBajos = $db->createCommand(
+        "SELECT id_material, nombre, stock_actual, stock_minimo, unidad_medida
+         FROM {{%materiales}}
+         WHERE estado = 1 AND stock_actual <= stock_minimo
+         ORDER BY (stock_actual - stock_minimo) ASC, nombre ASC"
+    )->queryAll();
+
+    $sinStock = [];
+    $bajoStock = [];
+    foreach ($materialesBajos as $m) {
+        if ((float) $m['stock_actual'] <= 0) {
+            $sinStock[] = $m;
+        } else {
+            $bajoStock[] = $m;
+        }
+    }
+
+    $entregasHoy = $db->createCommand(
+        "SELECT mi.id_movimiento, mi.cantidad, mi.fecha_hora, mi.tipo_movimiento,
+                m.nombre AS material_nombre, m.unidad_medida,
+                e.nombre AS edificio_nombre
+         FROM {{%movimientos_inventario}} mi
+         INNER JOIN {{%materiales}} m ON m.id_material = mi.id_material
+         LEFT JOIN {{%edificios}} e ON e.id_edificio = mi.id_edificio
+         WHERE DATE(mi.fecha_hora) = CURDATE()
+           AND (LOWER(mi.tipo_movimiento) LIKE '%entrega%'
+                OR LOWER(mi.tipo_movimiento) LIKE '%salida%')
+         ORDER BY mi.fecha_hora DESC
+         LIMIT 20"
+    )->queryAll();
+
+    $edificiosAtendidosHoy = (int) $db->createCommand(
+        "SELECT COUNT(DISTINCT id_edificio)
+         FROM {{%movimientos_inventario}}
+         WHERE DATE(fecha_hora) = CURDATE()
+           AND (LOWER(tipo_movimiento) LIKE '%entrega%'
+                OR LOWER(tipo_movimiento) LIKE '%salida%')
+           AND id_edificio IS NOT NULL"
+    )->queryScalar();
+
+    $unidadesEntregadasHoy = (float) $db->createCommand(
+        "SELECT COALESCE(SUM(cantidad), 0)
+         FROM {{%movimientos_inventario}}
+         WHERE DATE(fecha_hora) = CURDATE()
+           AND (LOWER(tipo_movimiento) LIKE '%entrega%'
+                OR LOWER(tipo_movimiento) LIKE '%salida%')"
+    )->queryScalar();
+
+    return [
+        'turno' => $turno,
+        'sinStock' => $sinStock,
+        'bajoStock' => $bajoStock,
+        'totalAlertas' => count($sinStock) + count($bajoStock),
+        'entregasHoy' => $entregasHoy,
+        'totalEntregasHoy' => count($entregasHoy),
+        'edificiosAtendidosHoy' => $edificiosAtendidosHoy,
+        'unidadesEntregadasHoy' => $unidadesEntregadasHoy,
+    ];
+}
 
     private function getAdminDashboardData(): array
     {
