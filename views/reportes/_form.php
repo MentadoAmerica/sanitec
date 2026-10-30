@@ -72,7 +72,12 @@ foreach ($sanitarios as $s) {
             <?= $form->field($model, 'evidencia_foto')->textInput([
                 'maxlength' => true,
                 'placeholder' => 'URL o referencia de la foto (opcional)',
-            ]) ?>
+                'readonly' => $model->id_verificacion !== null,
+            ])->hint(
+                $model->id_verificacion !== null
+                    ? 'Se adjunta la fotografía registrada durante la verificación.'
+                    : 'URL o referencia de la foto (opcional).'
+            ) ?>
         </div>
         <div class="col-12">
             <?= $form->field($model, 'descripcion')->textarea([

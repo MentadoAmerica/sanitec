@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\HorariosPersonal $model */
 
-$this->title = $model->id_horario;
+$this->title = 'Horario de personal #' . $model->id_horario;
 $this->params['breadcrumbs'][] = ['label' => 'Horarios Personals', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);

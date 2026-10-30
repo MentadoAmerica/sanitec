@@ -4,7 +4,7 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Bienvenido a SANITEC';
+$this->title = 'Inicio';
 ?>
 <main class="public-home">
     <section class="public-hero">

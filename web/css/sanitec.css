@@ -12,6 +12,38 @@
     --sanitec-footer-h:    40px;
 }
 
+/* Botones primarios de Bootstrap alineados con la paleta institucional */
+.sanitec-body .btn.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--sanitec-vino);
+    --bs-btn-border-color: var(--sanitec-vino);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--sanitec-vino-oscuro);
+    --bs-btn-hover-border-color: var(--sanitec-vino-oscuro);
+    --bs-btn-focus-shadow-rgb: 123, 30, 47;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #4a101b;
+    --bs-btn-active-border-color: #4a101b;
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--sanitec-vino);
+    --bs-btn-disabled-border-color: var(--sanitec-vino);
+}
+
+.sanitec-body .btn.btn-outline-primary {
+    --bs-btn-color: var(--sanitec-vino);
+    --bs-btn-border-color: var(--sanitec-vino);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--sanitec-vino);
+    --bs-btn-hover-border-color: var(--sanitec-vino);
+    --bs-btn-focus-shadow-rgb: 123, 30, 47;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--sanitec-vino-oscuro);
+    --bs-btn-active-border-color: var(--sanitec-vino-oscuro);
+    --bs-btn-disabled-color: var(--sanitec-vino);
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: var(--sanitec-vino);
+}
+
 html, body { height: 100%; margin: 0; }
 
 /* ---------- Header ---------- */
@@ -41,6 +73,36 @@ html, body { height: 100%; margin: 0; }
 .sidebar-logo {
     border-bottom: 1px solid #e6dcd6;
     background-color: #fff;
+    padding: 1rem 0 !important;
+}
+
+.sidebar-brand-logo {
+    display: block;
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+.sidebar-brand-name {
+    margin-top: .5rem;
+    color: var(--sanitec-vino);
+    font-size: .9rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+}
+
+.sanitec-main .breadcrumb .breadcrumb-item a,
+.sanitec-main .breadcrumb .breadcrumb-item a:visited {
+    color: #604f48 !important;
+    text-decoration: none !important;
+}
+
+.sanitec-main .breadcrumb .breadcrumb-item a:hover,
+.sanitec-main .breadcrumb .breadcrumb-item a:focus,
+.sanitec-main .breadcrumb .breadcrumb-item a:active {
+    color: var(--sanitec-vino) !important;
+    text-decoration: none !important;
 }
 
 /* ---------- Sidebar: enlaces de navegación ---------- */
@@ -1916,6 +1978,34 @@ body.sidebar-collapsed .sanitec-main {
 .admin-text-link:hover {
     color: #5a1522;
     text-decoration: underline;
+}
+
+.btn.btn-servicio-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .375rem .75rem;
+    border: 1px solid var(--sanitec-dorado);
+    border-radius: .375rem;
+    background-color: transparent;
+    color: var(--sanitec-vino);
+    font-weight: 400;
+    line-height: 1.5;
+    text-decoration: none;
+    transition: background-color .15s, border-color .15s, color .15s;
+}
+
+.btn.btn-servicio-social:hover,
+.btn.btn-servicio-social:focus-visible {
+    border-color: var(--sanitec-dorado);
+    background-color: var(--sanitec-dorado);
+    color: var(--sanitec-vino-oscuro);
+    text-decoration: none;
+}
+
+.btn.btn-servicio-social:focus-visible {
+    outline: 2px solid var(--sanitec-vino);
+    outline-offset: 2px;
 }
 
 /* lista de actividad */

@@ -21,6 +21,8 @@ use yii\web\ErrorAction;
 use yii\web\Response;
 use app\models\AlumnosServicioSocial;
 use app\models\Personal;
+use app\models\User;
+use yii\web\ForbiddenHttpException;
 
 class SitioController extends Controller
 {
@@ -88,13 +90,17 @@ class SitioController extends Controller
         return $this->render('index');
     }
 
-    $rol = (int) Yii::$app->user->identity->id_rol;
+    $identity = Yii::$app->user->identity;
+    if (!$identity instanceof User) {
+        throw new ForbiddenHttpException('La sesión actual no corresponde a una cuenta válida.');
+    }
+    $rol = (int) $identity->id_rol;
 
     switch ($rol) {
         case 1:
             return $this->render('admin-dashboard', $this->getAdminDashboardData());
         case 2:
-            return $this->render('dashboard-servicio-social', $this->getServicioSocialData());
+            return $this->render('dashboard-servicio-social', $this->getServicioSocialData($identity));
         case 3:
             return $this->render('dashboard-intendente', $this->getIntendenteData());
         case 4:
@@ -104,69 +110,107 @@ class SitioController extends Controller
     }
 }
 
-private function getServicioSocialData(): array
+private function getServicioSocialData(User $identity): array
 {
     $db = Yii::$app->db;
+    $userId = (int) $identity->getId();
+    $alumno = AlumnosServicioSocial::findOne(['id_usuario' => $userId, 'estado' => 1]);
+    $idAlumno = $alumno === null ? 0 : (int) $alumno->id_alumno;
+    $paramsAlumno = [':id_alumno' => $idAlumno];
+    $rondasAsignadas = 'EXISTS (
+        SELECT 1
+        FROM {{%alumno_horarios_ss}} ahs
+        WHERE ahs.id_alumno = :id_alumno
+          AND ahs.id_horario_ss = rp.id_horario_ss
+          AND ahs.estado = 1
+          AND ahs.fecha_inicio <= rp.fecha_programada
+          AND (ahs.fecha_fin IS NULL OR ahs.fecha_fin >= rp.fecha_programada)
+    )';
 
-    $reportesPendientes = (int) $db->createCommand(
-        "SELECT COUNT(*) FROM {{%reportes}} WHERE LOWER(estado) = 'pendiente'"
-    )->queryScalar();
-
-    $reportesEnAtencion = (int) $db->createCommand(
-        "SELECT COUNT(*) FROM {{%reportes}} WHERE LOWER(estado) IN ('en atención', 'en atencion')"
-    )->queryScalar();
-
-    $reportesAtendidosHoy = (int) $db->createCommand(
-        "SELECT COUNT(*) FROM {{%reportes}}
-         WHERE DATE(fecha_cierre) = CURDATE()
-           AND LOWER(estado) IN ('atendido', 'cerrado')"
-    )->queryScalar();
+    $horariosAsignados = $db->createCommand(
+        'SELECT hss.nombre_turno, hss.dia_semana, hss.hora_inicio, hss.hora_fin
+         FROM {{%alumno_horarios_ss}} ahs
+         INNER JOIN {{%horarios_servicio_social}} hss ON hss.id_horario_ss = ahs.id_horario_ss
+         WHERE ahs.id_alumno = :id_alumno
+           AND ahs.estado = 1 AND hss.estado = 1
+           AND ahs.fecha_inicio <= CURDATE()
+           AND (ahs.fecha_fin IS NULL OR ahs.fecha_fin >= CURDATE())
+         ORDER BY hss.dia_semana, hss.hora_inicio',
+        $paramsAlumno
+    )->queryAll();
 
     $rondasPendientesHoy = (int) $db->createCommand(
-        "SELECT COUNT(*) FROM {{%rondas_programadas}}
-         WHERE fecha_programada = CURDATE() AND LOWER(estado) = 'pendiente'"
+        "SELECT COUNT(*) FROM {{%rondas_programadas}} rp
+         WHERE rp.fecha_programada = CURDATE()
+           AND LOWER(rp.estado) IN ('pendiente', 'en curso')
+           AND $rondasAsignadas",
+        $paramsAlumno
     )->queryScalar();
 
     $rondasCompletadasHoy = (int) $db->createCommand(
-        "SELECT COUNT(*) FROM {{%rondas_programadas}}
-         WHERE fecha_programada = CURDATE()
-           AND LOWER(estado) IN ('completada', 'completado')"
+        "SELECT COUNT(*) FROM {{%rondas_programadas}} rp
+         WHERE rp.fecha_programada = CURDATE()
+           AND LOWER(rp.estado) IN ('completada', 'completado')
+           AND $rondasAsignadas",
+        $paramsAlumno
+    )->queryScalar();
+
+    $rondasPendientes = $db->createCommand(
+        "SELECT rp.id_ronda, rp.fecha_programada, rp.hora_programada, rp.estado,
+                s.nombre AS sanitario_nombre, e.nombre AS edificio_nombre
+         FROM {{%rondas_programadas}} rp
+         INNER JOIN {{%sanitarios}} s ON s.id_sanitario = rp.id_sanitario
+         INNER JOIN {{%edificios}} e ON e.id_edificio = s.id_edificio
+         WHERE rp.fecha_programada >= CURDATE()
+           AND LOWER(rp.estado) IN ('pendiente', 'en curso')
+           AND $rondasAsignadas
+         ORDER BY rp.fecha_programada ASC, rp.hora_programada ASC
+         LIMIT 10",
+        $paramsAlumno
+    )->queryAll();
+
+    $reportesPendientes = (int) $db->createCommand(
+        "SELECT COUNT(*) FROM {{%reportes}}
+         WHERE id_usuario_reporta = :id_usuario AND LOWER(estado) = 'pendiente'",
+        [':id_usuario' => $userId]
+    )->queryScalar();
+    $reportesEnAtencion = (int) $db->createCommand(
+        "SELECT COUNT(*) FROM {{%reportes}}
+         WHERE id_usuario_reporta = :id_usuario
+           AND LOWER(estado) IN ('en atención', 'en atencion')",
+        [':id_usuario' => $userId]
+    )->queryScalar();
+    $reportesAtendidosHoy = (int) $db->createCommand(
+        "SELECT COUNT(*) FROM {{%reportes}}
+         WHERE id_usuario_reporta = :id_usuario
+           AND DATE(fecha_cierre) = CURDATE()
+           AND LOWER(estado) IN ('atendido', 'cerrado')",
+        [':id_usuario' => $userId]
+    )->queryScalar();
+    $reportesGenerados = (int) $db->createCommand(
+        'SELECT COUNT(*) FROM {{%reportes}} WHERE id_usuario_reporta = :id_usuario',
+        [':id_usuario' => $userId]
     )->queryScalar();
 
     $reportesActivos = $db->createCommand(
         "SELECT r.id_reporte, r.estado, r.fecha_hora_reporte,
                 COALESCE(NULLIF(r.prioridad, ''), tr.prioridad) AS prioridad_efectiva,
-                tr.nombre AS tipo_nombre, tr.categoria,
+                tr.nombre AS tipo_nombre,
                 s.nombre AS sanitario_nombre, e.nombre AS edificio_nombre
          FROM {{%reportes}} r
          INNER JOIN {{%tipos_reporte}} tr ON tr.id_tipo_reporte = r.id_tipo_reporte
          INNER JOIN {{%sanitarios}} s ON s.id_sanitario = r.id_sanitario
          INNER JOIN {{%edificios}} e ON e.id_edificio = s.id_edificio
-         WHERE LOWER(r.estado) IN ('pendiente', 'en atención', 'en atencion')
-         ORDER BY
-             CASE LOWER(COALESCE(NULLIF(r.prioridad, ''), tr.prioridad))
-                 WHEN 'urgente' THEN 0
-                 WHEN 'alta' THEN 1
-                 WHEN 'normal' THEN 2
-                 WHEN 'baja' THEN 3
-                 ELSE 4
-             END ASC,
-             r.fecha_hora_reporte ASC
-         LIMIT 20"
-    )->queryAll();
-
-    $rondasPendientes = $db->createCommand(
-        "SELECT rp.id_ronda, rp.hora_programada,
-                s.nombre AS sanitario_nombre, e.nombre AS edificio_nombre
-         FROM {{%rondas_programadas}} rp
-         INNER JOIN {{%sanitarios}} s ON s.id_sanitario = rp.id_sanitario
-         INNER JOIN {{%edificios}} e ON e.id_edificio = s.id_edificio
-         WHERE rp.fecha_programada = CURDATE() AND LOWER(rp.estado) = 'pendiente'
-         ORDER BY rp.hora_programada ASC
-         LIMIT 10"
+         WHERE r.id_usuario_reporta = :id_usuario
+         ORDER BY r.fecha_hora_reporte DESC
+         LIMIT 5",
+        [':id_usuario' => $userId]
     )->queryAll();
 
     return [
+        'nombreAlumno' => $identity->getNombreCompleto(),
+        'horariosAsignados' => $horariosAsignados,
+        'reportesGenerados' => $reportesGenerados,
         'reportesPendientes' => $reportesPendientes,
         'reportesEnAtencion' => $reportesEnAtencion,
         'reportesAtendidosHoy' => $reportesAtendidosHoy,

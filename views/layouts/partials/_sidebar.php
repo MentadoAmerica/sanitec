@@ -30,9 +30,11 @@ if (Yii::$app->user->isGuest) {
                 ['label' => 'Sanitarios',               'url' => ['/sanitarios/index'],                   'icon' => 'bi-building'],
                 ['label' => 'Personal de limpieza',     'url' => ['/personal/index'],                     'icon' => 'bi-person-badge'],
                 ['label' => 'Horarios y asignaciones',  'url' => ['/horarios-personal/index'],            'icon' => 'bi-calendar-week'],
-                ['label' => 'Programación de rondas',   'url' => ['/horarios-servicio-social/index'],     'icon' => 'bi-signpost-split'],
+                ['label' => 'Horarios servicio social','url' => ['/horarios-servicio-social/index'],     'icon' => 'bi-calendar-week'],
+                ['label' => 'Programar rondas',         'url' => ['/rondas-programadas/index'],           'icon' => 'bi-signpost-split'],
                 ['label' => 'Seguimiento de servicios', 'url' => ['/servicios/index'],                    'icon' => 'bi-clipboard-check'],
                 ['label' => 'Reportes e incidencias',   'url' => ['/reportes/index'],                     'icon' => 'bi-exclamation-triangle'],
+                ['label' => 'Solicitudes de insumos',   'url' => ['/solicitudes-abastecimiento/index'],   'icon' => 'bi-box-arrow-in-down'],
                 ['label' => 'Inventario',               'url' => ['/materiales/index'],                   'icon' => 'bi-box-seam'],
                 ['label' => 'Servicio Social',          'url' => ['/alumno-horarios-ss/index'],           'icon' => 'bi-mortarboard'],
                 ['label' => 'Encuestas',                'url' => ['/evaluaciones-satisfaccion/index'],    'icon' => 'bi-emoji-smile'],
@@ -43,10 +45,10 @@ if (Yii::$app->user->isGuest) {
         case 2: // servicio social
             $menuItems = [
                 ['label' => 'Mis actividades', 'url' => ['/site/index'],                 'icon' => 'bi-speedometer2'],
-                ['label' => 'Horario',         'url' => ['/rondas-programadas/index'],   'icon' => 'bi-signpost-split'],
-                ['label' => 'Verificación',    'url' => ['/verificaciones/create'],      'icon' => 'bi-clipboard-check'],
+                ['label' => 'Mis rondas',      'url' => ['/rondas-programadas/index'],   'icon' => 'bi-signpost-split'],
                 ['label' => 'Historial',       'url' => ['/verificaciones/index'],       'icon' => 'bi-clock-history'],
                 ['label' => 'Reportes',        'url' => ['/reportes/index'],             'icon' => 'bi-exclamation-triangle'],
+                ['label' => 'Solicitar insumos','url' => ['/solicitudes-abastecimiento/index'], 'icon' => 'bi-box-arrow-in-down'],
             ];
             break;
 
@@ -64,6 +66,7 @@ if (Yii::$app->user->isGuest) {
                 ['label' => 'Catálogo de materiales', 'url' => ['/materiales/index'],                                 'icon' => 'bi-box-seam'],
                 ['label' => 'Entradas',               'url' => ['/movimientos-inventario/create', 'tipo' => 'entrada'], 'icon' => 'bi-box-arrow-in-down'],
                 ['label' => 'Salidas y entregas',     'url' => ['/movimientos-inventario/create', 'tipo' => 'salida'],  'icon' => 'bi-box-arrow-up'],
+                ['label' => 'Solicitudes de insumos','url' => ['/solicitudes-abastecimiento/index'],                    'icon' => 'bi-clipboard-check'],
                 ['label' => 'Historial',              'url' => ['/movimientos-inventario/index'],                       'icon' => 'bi-clock-history'],
             ];
             break;
@@ -86,12 +89,11 @@ $currentTipo       = Yii::$app->request->get('tipo');
         <?= Html::a(
             Html::img('@web/images/logo-tec.jpg', [
                 'alt' => 'TecNM Matamoros',
-                'class' => 'img-fluid',
-                'style' => 'max-height: 110px;',
+                'class' => 'img-fluid sidebar-brand-logo',
             ]),
             Url::home()
         ) ?>
-        <div class="small text-muted mt-2">SANITEC</div>
+        <div class="sidebar-brand-name">SANITEC</div>
     </div>
 
     <nav class="sidebar-nav">

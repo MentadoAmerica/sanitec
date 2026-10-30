@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\HistorialReportesSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Historial Reportes';
+$this->title = 'Historial de reportes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="historial-reportes-index">

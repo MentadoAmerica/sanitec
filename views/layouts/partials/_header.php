@@ -7,7 +7,7 @@ use yii\helpers\Url;
 
         <!-- Botón hamburguesa -->
         <button id="btn-toggle-sidebar" class="btn btn-link text-white p-0 me-3"
-                type="button" aria-label="Mostrar/ocultar menú">
+                type="button" aria-label="Mostrar/ocultar menú" aria-controls="sanitec-sidebar" aria-expanded="false">
             <i class="bi bi-list fs-3"></i>
         </button>
 

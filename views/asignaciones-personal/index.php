@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\AsignacionesPersonalSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Asignaciones Personals';
+$this->title = 'Asignaciones de personal';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="asignaciones-personal-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Asignaciones Personal', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Nueva asignación', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

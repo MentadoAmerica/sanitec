@@ -8,10 +8,10 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\captcha\Captcha;
 
-$this->title = 'Contact us';
+$this->title = 'Contacto';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['meta_description'] = 'Get in touch with us. Send us a message using the contact form.';
-$this->params['meta_keywords'] = 'yii, yii2, contact, support, feedback';
+$this->params['meta_description'] = 'Ponte en contacto con el equipo de SANITEC.';
+$this->params['meta_keywords'] = 'SANITEC, contacto, soporte';
 $htmlIcon = <<<HTML
 {label}<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;

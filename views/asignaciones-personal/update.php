@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\AsignacionesPersonal $model */
 
-$this->title = 'Update Asignaciones Personal: ' . $model->id_asignacion;
-$this->params['breadcrumbs'][] = ['label' => 'Asignaciones Personals', 'url' => ['index']];
+$this->title = 'Editar asignación de personal #' . $model->id_asignacion;
+$this->params['breadcrumbs'][] = ['label' => 'Asignaciones de personal', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_asignacion, 'url' => ['view', 'id_asignacion' => $model->id_asignacion]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Editar';
 ?>
 <div class="asignaciones-personal-update">
 

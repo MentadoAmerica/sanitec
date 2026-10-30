@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\HistorialReportes $model */
 
-$this->title = $model->id_historial;
+$this->title = 'Registro de historial #' . $model->id_historial;
 $this->params['breadcrumbs'][] = ['label' => 'Historial Reportes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);

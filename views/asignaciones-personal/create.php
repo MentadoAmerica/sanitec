@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\AsignacionesPersonal $model */
 
-$this->title = 'Create Asignaciones Personal';
-$this->params['breadcrumbs'][] = ['label' => 'Asignaciones Personals', 'url' => ['index']];
+$this->title = 'Nueva asignación de personal';
+$this->params['breadcrumbs'][] = ['label' => 'Asignaciones de personal', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="asignaciones-personal-create">

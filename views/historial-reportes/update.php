@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\HistorialReportes $model */
 
-$this->title = 'Update Historial Reportes: ' . $model->id_historial;
-$this->params['breadcrumbs'][] = ['label' => 'Historial Reportes', 'url' => ['index']];
+$this->title = 'Editar registro de historial #' . $model->id_historial;
+$this->params['breadcrumbs'][] = ['label' => 'Historial de reportes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_historial, 'url' => ['view', 'id_historial' => $model->id_historial]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Editar';
 ?>
 <div class="historial-reportes-update">
 

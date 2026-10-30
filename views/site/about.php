@@ -4,10 +4,10 @@
 
 use yii\helpers\Html;
 
-$this->title = 'About';
+$this->title = 'Acerca de SANITEC';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['meta_description'] = 'Learn more about this Yii2-powered application.';
-$this->params['meta_keywords'] = 'yii, yii2, about, php, framework';
+$this->params['meta_description'] = 'Conoce más sobre SANITEC.';
+$this->params['meta_keywords'] = 'SANITEC, servicios, limpieza';
 ?>
 <div class="site-about d-flex align-items-center justify-content-center text-center">
     <div class="site-about-content mx-auto">

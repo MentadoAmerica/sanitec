@@ -5,7 +5,9 @@ use yii\helpers\Url;
 // Registrar Bootstrap 5, iconos y sanitec.css — pero NO site.css
 $this->registerCssFile('https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css');
 $this->registerCssFile('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
-$this->registerCssFile(Yii::getAlias('@web/css/sanitec.css'));
+$this->registerCssFile(
+    Yii::getAlias('@web/css/sanitec.css') . '?v=' . filemtime(Yii::getAlias('@webroot/css/sanitec.css')),
+);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -15,6 +17,7 @@ $this->registerCssFile(Yii::getAlias('@web/css/sanitec.css'));
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?> — SANITEC</title>
+    <link rel="icon" type="image/jpeg" href="<?= Yii::getAlias('@web/images/logo.jpg') ?>">
     <?php $this->head() ?>
 </head>
 <body class="sanitec-body">

@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\TiposReporte $model */
 
-$this->title = $model->id_tipo_reporte;
+$this->title = 'Tipo de reporte #' . $model->id_tipo_reporte;
 $this->params['breadcrumbs'][] = ['label' => 'Tipos Reportes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);

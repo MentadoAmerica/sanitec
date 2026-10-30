@@ -6,6 +6,16 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
+/**
+ * @property int $id_usuario
+ * @property int $id_rol
+ * @property string $nombre
+ * @property string $apellidos
+ * @property string $correo
+ * @property string $contrasena
+ * @property int $estado
+ * @property string|null $telefono
+ */
 class User extends ActiveRecord implements IdentityInterface
 {
     public static function tableName()

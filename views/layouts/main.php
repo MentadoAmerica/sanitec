@@ -13,16 +13,17 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?> — SANITEC</title>
+    <link rel="icon" type="image/jpeg" href="<?= Yii::getAlias('@web/images/logo.jpg') ?>">
 
     <!-- Bootstrap Icons (CDN) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- CSS propio de SANITEC -->
-    <link rel="stylesheet" href="<?= Yii::$app->request->baseUrl ?>/css/sanitec.css">
+    <link rel="stylesheet" href="<?= Yii::$app->request->baseUrl ?>/css/sanitec.css?v=<?= filemtime(Yii::getAlias('@webroot/css/sanitec.css')) ?>">
 
     <?php $this->head() ?>
 </head>
-<body class="sanitec-body">
+<body class="sanitec-body sidebar-collapsed">
 <?php $this->beginBody() ?>
 
     <?= $this->render('//layouts/partials/_header') ?>
@@ -68,11 +69,9 @@ AppAsset::register($this);
             const sidebar= document.getElementById('sanitec-sidebar');
             if (!btn || !sidebar) return;
 
-            // Estado inicial en desktop: abierto. En móvil: cerrado.
-            if (window.innerWidth < 992) body.classList.add('sidebar-collapsed');
-
             btn.addEventListener('click', function () {
-                body.classList.toggle('sidebar-collapsed');
+                const estaColapsado = body.classList.toggle('sidebar-collapsed');
+                btn.setAttribute('aria-expanded', String(!estaColapsado));
             });
         })();
     </script>

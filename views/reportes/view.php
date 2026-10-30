@@ -12,6 +12,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Reportes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $esAdmin = (int) Yii::$app->user->identity->id_rol === 1;
+$puedeSolicitarInsumos = in_array((int) Yii::$app->user->identity->id_rol, [1, 2], true)
+    && ((int) Yii::$app->user->identity->id_rol === 1 || $model->id_verificacion !== null);
 $puedeEditar = $esAdmin && $model->estado !== 'Cerrado';
 $siguientes = $model->getSiguientesEstados();
 ?>
@@ -30,6 +32,13 @@ $siguientes = $model->getSiguientesEstados();
             </p>
         </div>
         <div class="admin-page-actions">
+            <?php if ($puedeSolicitarInsumos): ?>
+                <?= Html::a(
+                    'Solicitar insumos',
+                    ['/solicitudes-abastecimiento/create', 'id_reporte' => $model->id_reporte],
+                    ['class' => 'btn-secondary-admin']
+                ) ?>
+            <?php endif; ?>
             <?php if ($puedeEditar): ?>
                 <?= Html::a('Editar', ['update', 'id_reporte' => $model->id_reporte], ['class' => 'btn-secondary-admin']) ?>
             <?php endif; ?>

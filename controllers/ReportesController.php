@@ -6,8 +6,11 @@ use Yii;
 use app\models\Reportes;
 use app\models\ReportesSearch;
 use app\models\HistorialReportes;
+use app\models\Verificaciones;
+use app\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
@@ -22,10 +25,20 @@ class ReportesController extends Controller
                     [
                         'allow' => true,
                         'roles' => ['@'],
+                        'actions' => ['index', 'view', 'create'],
                         'matchCallback' => function () {
-                            // admin o servicio social
-                            $rol = (int) Yii::$app->user->identity->id_rol;
-                            return in_array($rol, [1, 2], true);
+                            $identity = Yii::$app->user->identity;
+                            return $identity instanceof User
+                                && in_array((int) $identity->id_rol, [1, 2], true);
+                        },
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'actions' => ['update', 'cambiar-estado'],
+                        'matchCallback' => static function () {
+                            $identity = Yii::$app->user->identity;
+                            return $identity instanceof User && (int) $identity->id_rol === 1;
                         },
                     ],
                 ],
@@ -44,19 +57,30 @@ class ReportesController extends Controller
         $searchModel = new ReportesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
         $dataProvider->sort->defaultOrder = ['fecha_hora_reporte' => SORT_DESC];
+        $identity = $this->getIdentity();
+        $esServicioSocial = (int) $identity->id_rol === 2;
+        if ($esServicioSocial) {
+            $dataProvider->query->andWhere(['id_usuario_reporta' => $identity->getId()]);
+        }
 
         $estado = $this->request->get('estado');
         if (in_array($estado, ['Pendiente', 'En atención', 'Atendido', 'Cerrado'], true)) {
             $dataProvider->query->andWhere(['estado' => $estado]);
         }
 
-        $conteos = [
-            'todos' => (int) Reportes::find()->count(),
-            'pendiente' => (int) Reportes::find()->where(['estado' => 'Pendiente'])->count(),
-            'en_atencion' => (int) Reportes::find()->where(['estado' => 'En atención'])->count(),
-            'atendido' => (int) Reportes::find()->where(['estado' => 'Atendido'])->count(),
-            'cerrado' => (int) Reportes::find()->where(['estado' => 'Cerrado'])->count(),
-        ];
+        $queryConteos = Reportes::find();
+        if ($esServicioSocial) {
+            $queryConteos->andWhere(['id_usuario_reporta' => $identity->getId()]);
+        }
+        $conteos = ['todos' => (int) (clone $queryConteos)->count()];
+        foreach ([
+            'pendiente' => 'Pendiente',
+            'en_atencion' => 'En atención',
+            'atendido' => 'Atendido',
+            'cerrado' => 'Cerrado',
+        ] as $key => $estadoConteo) {
+            $conteos[$key] = (int) (clone $queryConteos)->andWhere(['estado' => $estadoConteo])->count();
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -84,11 +108,49 @@ class ReportesController extends Controller
     {
         $model = new Reportes();
         $model->estado = 'Pendiente';
+        $idVerificacion = $this->request->get('id_verificacion');
+        $identity = $this->getIdentity();
+        $esServicioSocial = (int) $identity->id_rol === 2;
+        if ($esServicioSocial && empty($idVerificacion)) {
+            throw new ForbiddenHttpException('Genera el reporte desde una verificación finalizada.');
+        }
+
+        $verificacion = null;
+        if (!empty($idVerificacion)) {
+            $queryVerificacion = Verificaciones::find()->where([
+                'id_verificacion' => $idVerificacion,
+            ]);
+            if ($esServicioSocial) {
+                $alumno = \app\models\AlumnosServicioSocial::findOne([
+                    'id_usuario' => $identity->getId(),
+                    'estado' => 1,
+                ]);
+                if ($alumno === null) {
+                    throw new ForbiddenHttpException('Tu cuenta no está vinculada a un alumno activo de servicio social.');
+                }
+                $queryVerificacion->andWhere([
+                    'id_alumno' => $alumno->id_alumno,
+                ])->andWhere(['IS NOT', 'fecha_hora_fin', null]);
+            }
+            $verificacion = $queryVerificacion->one();
+            if ($verificacion === null) {
+                throw new NotFoundHttpException('La verificación no existe o no puede generar reportes.');
+            }
+            $model->id_sanitario = $verificacion->id_sanitario;
+            $model->evidencia_foto = $verificacion->evidencia_foto;
+        }
 
         if ($this->request->isPost) {
             $model->load($this->request->post());
-            $model->id_usuario_reporta = Yii::$app->user->id;
+            $model->id_usuario_reporta = $identity->getId();
             $model->fecha_hora_reporte = date('Y-m-d H:i:s');
+            if ($verificacion !== null) {
+                $model->id_verificacion = $verificacion->id_verificacion;
+                $model->id_sanitario = $verificacion->id_sanitario;
+                if ($esServicioSocial) {
+                    $model->evidencia_foto = $verificacion->evidencia_foto;
+                }
+            }
 
             if ($model->save()) {
                 $this->registrarHistorial($model->id_reporte, null, 'Pendiente', 'reporte creado');
@@ -156,9 +218,23 @@ class ReportesController extends Controller
 
     protected function findModel($id_reporte)
     {
-        if (($model = Reportes::findOne(['id_reporte' => $id_reporte])) !== null) {
+        $query = Reportes::find()->where(['id_reporte' => $id_reporte]);
+        $identity = $this->getIdentity();
+        if ((int) $identity->id_rol === 2) {
+            $query->andWhere(['id_usuario_reporta' => $identity->getId()]);
+        }
+        if (($model = $query->one()) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('El reporte solicitado no existe.');
+    }
+
+    private function getIdentity(): User
+    {
+        $identity = Yii::$app->user->identity;
+        if (!$identity instanceof User) {
+            throw new ForbiddenHttpException('La sesión actual no corresponde a una cuenta válida.');
+        }
+        return $identity;
     }
 }

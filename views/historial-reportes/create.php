@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\HistorialReportes $model */
 
-$this->title = 'Create Historial Reportes';
-$this->params['breadcrumbs'][] = ['label' => 'Historial Reportes', 'url' => ['index']];
+$this->title = 'Nuevo registro de historial';
+$this->params['breadcrumbs'][] = ['label' => 'Historial de reportes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="historial-reportes-create">

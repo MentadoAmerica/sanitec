@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\AsignacionesPersonal $model */
 
-$this->title = $model->id_asignacion;
+$this->title = 'Asignación de personal #' . $model->id_asignacion;
 $this->params['breadcrumbs'][] = ['label' => 'Asignaciones Personals', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
