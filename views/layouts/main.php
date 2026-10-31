@@ -23,7 +23,7 @@ AppAsset::register($this);
 
     <?php $this->head() ?>
 </head>
-<body class="sanitec-body sidebar-collapsed">
+<body class="sanitec-body">
 <?php $this->beginBody() ?>
 
     <?= $this->render('//layouts/partials/_header') ?>
@@ -69,9 +69,11 @@ AppAsset::register($this);
             const sidebar= document.getElementById('sanitec-sidebar');
             if (!btn || !sidebar) return;
 
+            // Estado inicial en desktop: abierto. En móvil: cerrado.
+            if (window.innerWidth < 992) body.classList.add('sidebar-collapsed');
+
             btn.addEventListener('click', function () {
-                const estaColapsado = body.classList.toggle('sidebar-collapsed');
-                btn.setAttribute('aria-expanded', String(!estaColapsado));
+                body.classList.toggle('sidebar-collapsed');
             });
         })();
     </script>
