@@ -25,7 +25,17 @@ class ReportesController extends Controller
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                        'actions' => ['index', 'view', 'create'],
+                        'actions' => ['index', 'view'],
+                        'matchCallback' => function () {
+                            $identity = Yii::$app->user->identity;
+                            return $identity instanceof User
+                                && in_array((int) $identity->id_rol, [1, 2, 3], true);
+                        },
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'actions' => ['create'],
                         'matchCallback' => function () {
                             $identity = Yii::$app->user->identity;
                             return $identity instanceof User

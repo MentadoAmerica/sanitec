@@ -16,7 +16,7 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            [['correo', 'contrasena'], 'required'],
+            [['correo', 'contrasena'], 'required', 'message' => 'Este campo es obligatorio.'],
             ['correo', 'email'],
             ['rememberMe', 'boolean'],
             ['contrasena', 'validatePassword'],

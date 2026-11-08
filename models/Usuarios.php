@@ -36,7 +36,7 @@ class Usuarios extends ActiveRecord
             'id_rol' => 'Rol',
             'nombre' => 'Nombre',
             'apellidos' => 'Apellidos',
-            'correo' => 'Correo',
+            'correo' => 'Correo institucional',
             'telefono' => 'Teléfono',
             'contrasena' => 'Contraseña',
             'estado' => 'Estado',
