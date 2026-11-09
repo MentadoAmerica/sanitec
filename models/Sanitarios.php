@@ -38,16 +38,35 @@ class Sanitarios extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function beforeValidate()
+    {
+        if (trim((string) $this->codigo_qr) === '') {
+            $this->codigo_qr = self::generateUniqueQrToken();
+        }
+
+        return parent::beforeValidate();
+    }
+
+    public static function generateUniqueQrToken(): string
+    {
+        do {
+            $token = 'SAN-' . strtoupper(substr(hash('sha256', uniqid((string) microtime(true), true)), 0, 12));
+        } while (self::find()->where(['codigo_qr' => $token])->exists());
+
+        return $token;
+    }
+
     public function rules()
     {
         return [
             [['tipo', 'ubicacion'], 'default', 'value' => null],
             [['estado'], 'default', 'value' => 1],
-            [['id_edificio', 'nombre', 'codigo_qr'], 'required'],
+            [['id_edificio', 'nombre'], 'required'],
             [['id_edificio', 'estado'], 'integer'],
             [['nombre'], 'string', 'max' => 100],
             [['tipo'], 'string', 'max' => 50],
             [['ubicacion', 'codigo_qr'], 'string', 'max' => 255],
+            [['codigo_qr'], 'required'],
             [['codigo_qr'], 'unique'],
             [['id_edificio'], 'exist', 'skipOnError' => true, 'targetClass' => Edificios::class, 'targetAttribute' => ['id_edificio' => 'id_edificio']],
         ];

@@ -6,10 +6,13 @@ use Yii;
 use app\models\Sanitarios;
 use app\models\SanitariosSearch;
 use app\models\Edificios;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\Response;
 
 class SanitariosController extends Controller
 {
@@ -54,6 +57,44 @@ class SanitariosController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id_sanitario),
         ]);
+    }
+
+    public function actionGenerateQr($id_sanitario)
+    {
+        $model = $this->findModel($id_sanitario);
+
+        if (trim((string) $model->codigo_qr) === '') {
+            $model->codigo_qr = Sanitarios::generateUniqueQrToken();
+            $model->save(false);
+        }
+
+        return $this->render('qr', [
+            'model' => $model,
+            'qrUrl' => urlencode($model->codigo_qr),
+            'surveyUrl' => \yii\helpers\Url::to(['/encuestas/qr', 'token' => $model->codigo_qr], true),
+        ]);
+    }
+
+    public function actionDownloadQr($id_sanitario): Response
+    {
+        $model = $this->findModel($id_sanitario);
+        if (trim((string) $model->codigo_qr) === '') {
+            $model->codigo_qr = Sanitarios::generateUniqueQrToken();
+            $model->save(false);
+        }
+
+        $image = (new QRCode(new QROptions([
+            'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+            'version' => 7,
+            'eccLevel' => QRCode::ECC_L,
+            'scale' => 8,
+        ])))->render($model->codigo_qr);
+
+        return Yii::$app->response->sendContentAsFile(
+            $image,
+            'qr-' . $model->id_sanitario . '.png',
+            ['mimeType' => 'image/png']
+        );
     }
 
     public function actionCreate()

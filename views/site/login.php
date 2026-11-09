@@ -83,10 +83,12 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <div class="mb-4">
                         <?= $form->field($model, 'contrasena', [
                             'options' => ['class' => 'mb-0'],
+                            'template' => '{label}<div class="input-group">{input}<button type="button" class="btn btn-outline-secondary" data-password-toggle aria-label="Mostrar contraseña" aria-pressed="false"><i class="bi bi-eye-slash" aria-hidden="true"></i></button></div>{error}{hint}',
                             //'template' => sprintf($htmlIcon, '&#128274;'),
                             'inputOptions' => [
                                 'class' => 'form-control',
                                 'placeholder' => 'Contraseña',
+                                'autocomplete' => 'current-password',
                             ],
                         ])->passwordInput()->label('Contraseña', $labelOptions) ?>
                     </div>

@@ -103,15 +103,18 @@ $edificios = Edificios::find()
                 ],
                 [
                     'class' => ActionColumn::class,
-                    'template' => '{view} {update} {delete}',
+                    'template' => '{view} {update} {qr} {delete}',
                     'header' => 'Acciones',
-                    'headerOptions' => ['style' => 'width: 220px'],
+                    'headerOptions' => ['style' => 'width: 260px'],
                     'buttons' => [
                         'view' => function ($url) {
                             return Html::a('Ver', $url, ['class' => 'btn-action-view']);
                         },
                         'update' => function ($url) {
                             return Html::a('Editar', $url, ['class' => 'btn-action-edit']);
+                        },
+                        'qr' => function ($url, Sanitarios $model) {
+                            return Html::a('QR', ['generate-qr', 'id_sanitario' => $model->id_sanitario], ['class' => 'btn-action-view']);
                         },
                         'delete' => function ($url) {
                             return Html::a('Eliminar', $url, [

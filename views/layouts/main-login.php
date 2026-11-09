@@ -39,6 +39,7 @@ $this->registerCssFile(
     <?= $this->render('//layouts/partials/_footer') ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= Html::encode(Yii::getAlias('@web/js/password-toggle.js')) ?>"></script>
 
 <?php $this->endBody() ?>
 </body>

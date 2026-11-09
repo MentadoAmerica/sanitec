@@ -66,7 +66,9 @@ $esNuevo = $model->isNewRecord;
             ) ?>
         </div>
         <div class="col-12">
-            <?= $form->field($model, 'contrasena')->passwordInput([
+            <?= $form->field($model, 'contrasena', [
+                'template' => '{label}<div class="input-group">{input}<button type="button" class="btn btn-outline-secondary" data-password-toggle aria-label="Mostrar contraseña" aria-pressed="false"><i class="bi bi-eye-slash" aria-hidden="true"></i></button></div>{error}{hint}',
+            ])->passwordInput([
                 'autocomplete' => 'new-password',
                 'placeholder' => $esNuevo ? 'Contraseña del usuario' : 'Dejar en blanco para conservar la actual',
             ])->hint($esNuevo

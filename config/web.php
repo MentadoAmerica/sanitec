@@ -8,6 +8,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'language' => 'es',
     'sourceLanguage' => 'en-US',
+    'timeZone' => 'America/Matamoros',
     'bootstrap' => ['log'],
     'container' => [
         'singletons' => [

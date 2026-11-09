@@ -81,12 +81,16 @@ $this->title = 'Crear cuenta';
                         'autocomplete' => 'tel',
                     ]) ?>
 
-                    <?= $form->field($model, 'contrasena')->passwordInput([
+                    <?= $form->field($model, 'contrasena', [
+                        'template' => '{label}<div class="input-group">{input}<button type="button" class="btn btn-outline-secondary" data-password-toggle aria-label="Mostrar contraseña" aria-pressed="false"><i class="bi bi-eye-slash" aria-hidden="true"></i></button></div>{error}{hint}',
+                    ])->passwordInput([
                         'minlength' => 8,
                         'autocomplete' => 'new-password',
                     ])->hint('Debe tener al menos 8 caracteres.') ?>
 
-                    <?= $form->field($model, 'confirmarContrasena')->passwordInput([
+                    <?= $form->field($model, 'confirmarContrasena', [
+                        'template' => '{label}<div class="input-group">{input}<button type="button" class="btn btn-outline-secondary" data-password-toggle aria-label="Mostrar contraseña" aria-pressed="false"><i class="bi bi-eye-slash" aria-hidden="true"></i></button></div>{error}{hint}',
+                    ])->passwordInput([
                         'minlength' => 8,
                         'autocomplete' => 'new-password',
                     ]) ?>

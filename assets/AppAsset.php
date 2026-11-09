@@ -30,6 +30,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
      //   'js/color-mode.js',
+        'js/password-toggle.js',
     ];
     public $jsOptions = [
         'position' => View::POS_HEAD,
