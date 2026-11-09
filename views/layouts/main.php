@@ -19,7 +19,8 @@ AppAsset::register($this);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- CSS propio de SANITEC -->
-    <link rel="stylesheet" href="<?= Yii::$app->request->baseUrl ?>/css/sanitec.css?v=<?= filemtime(Yii::getAlias('@webroot/css/sanitec.css')) ?>">
+    <?php $cssFile = Yii::getAlias('@webroot/css/sanitec.css'); ?>
+    <link rel="stylesheet" href="<?= Yii::$app->request->baseUrl ?>/css/sanitec.css?v=<?= file_exists($cssFile) ? filemtime($cssFile) : 1 ?>">
 
     <?php $this->head() ?>
 </head>

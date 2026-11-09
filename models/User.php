@@ -18,13 +18,22 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    public const STATUS_DELETED = 0;
+    public const STATUS_INACTIVE = 9;
+    public const STATUS_ACTIVE = 10;
+
     public static function tableName()
     {
-        return 'usuarios';
+        $schema = static::getDb()->getSchema();
+        return $schema->getTableSchema('user', true) !== null ? 'user' : 'usuarios';
     }
 
     public static function primaryKey()
     {
+        if (static::getDb()->getSchema()->getTableSchema('user', true) !== null) {
+            return ['id'];
+        }
+
         return ['id_usuario'];
     }
 
@@ -41,46 +50,75 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    // ===== IdentityInterface =====
-
     public static function findIdentity($id)
     {
+        $schema = static::getDb()->getSchema();
+        if ($schema->getTableSchema('user', true) !== null) {
+            return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE])
+                ?: static::findOne(['id' => $id]);
+        }
+
         return static::findOne(['id_usuario' => $id, 'estado' => 1]);
     }
 
     public static function findIdentityByAccessToken($token, $type = null)
     {
+        $schema = static::getDb()->getSchema();
+        if ($schema->getTableSchema('user', true) !== null) {
+            return static::findOne(['access_token' => $token]);
+        }
+
         return null;
+    }
+
+    public static function findByUsername($username)
+    {
+        $schema = static::getDb()->getSchema();
+        if ($schema->getTableSchema('user', true) !== null) {
+            return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE])
+                ?: static::findOne(['username' => $username]);
+        }
+
+        return static::findOne(['correo' => $username, 'estado' => 1]);
     }
 
     public function getId()
     {
-        return $this->id_usuario;
+        return $this->id ?? $this->id_usuario ?? null;
     }
 
     public function getAuthKey()
     {
-        return null;
+        return $this->auth_key ?? null;
     }
 
     public function validateAuthKey($authKey)
     {
-        return false;
+        return $this->getAuthKey() === $authKey;
     }
-
-    // ===== Login =====
 
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->contrasena);
+        $hash = $this->password_hash ?? $this->contrasena ?? null;
+        if ($hash === null || $hash === '') {
+            return false;
+        }
+
+        return Yii::$app->security->validatePassword($password, $hash);
     }
 
     public function setPassword($password)
     {
-        $this->contrasena = Yii::$app->security->generatePasswordHash($password);
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        if (isset($this->contrasena)) {
+            $this->contrasena = $this->password_hash;
+        }
     }
 
-    // ===== Relaciones =====
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
 
     public function getRol()
     {

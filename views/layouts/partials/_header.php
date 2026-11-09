@@ -19,11 +19,12 @@ use yii\helpers\Url;
         <!-- Zona derecha: usuario / login -->
         <div class="ms-auto d-flex align-items-center gap-3">
             <?php if (!Yii::$app->user->isGuest): ?>
+                <?php $username = Yii::$app->user->identity->username ?? Yii::$app->user->identity->nombre ?? 'Usuario'; ?>
                 <span class="text-white-50 small">
-                    <?= Html::encode(Yii::$app->user->identity->nombre ?? 'Usuario') ?>
+                    <?= Html::encode($username) ?>
                 </span>
                 <?= Html::a(
-                    '<i class="bi bi-box-arrow-right"></i> Salir',
+                    '<i class="bi bi-box-arrow-right"></i> Logout (' . Html::encode($username) . ')',
                     ['/site/logout'],
                     [
                         'class' => 'btn btn-sm btn-outline-light',
@@ -32,7 +33,7 @@ use yii\helpers\Url;
                 ) ?>
             <?php else: ?>
                 <?= Html::a(
-                    '<i class="bi bi-box-arrow-in-right"></i> Entrar',
+                    '<i class="bi bi-box-arrow-in-right"></i> Login',
                     ['/site/login'],
                     ['class' => 'btn btn-sm btn-outline-light']
                 ) ?>

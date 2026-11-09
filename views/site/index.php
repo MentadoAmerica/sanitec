@@ -4,9 +4,14 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Inicio';
+$this->title = 'My Application';
 ?>
 <main class="public-home">
+    <div class="mb-3">
+        <h1>My Application</h1>
+        <p><a href="<?= Yii::$app->urlManager->createUrl(['site/about']) ?>">About</a></p>
+    </div>
+
     <section class="public-hero">
         <div class="public-hero-content">
             <span class="public-eyebrow">Instituto Tecnológico de Matamoros</span>

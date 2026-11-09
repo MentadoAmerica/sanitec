@@ -8,7 +8,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use app\widgets\Alert;
 
-$this->title = 'Iniciar sesión';
+$this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 
 $htmlIcon = <<<HTML
@@ -60,7 +60,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                             ) ?>
                         </div>
                         <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
-                        <p class="text-body-secondary small">Ingresa tus credenciales institucionales</p>
+                        <p class="text-body-secondary small">Please enter your credentials</p>
                     </div>
 
                     <?= Alert::widget() ?>
@@ -68,29 +68,26 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
                     <div class="mb-3">
-                        <?= $form->field($model, 'correo', [
+                        <?= $form->field($model, 'username', [
                             'options' => ['class' => 'mb-0'],
-                            //'template' => sprintf($htmlIcon, '&#128231;'),
                             'inputOptions' => [
                                 'class' => 'form-control',
-                                'placeholder' => 'tu-correo@itmatamoros.edu.mx',
-                                'type' => 'email',
+                                'placeholder' => 'admin',
                                 'autofocus' => true,
                             ],
-                        ])->textInput()->label('Correo institucional', $labelOptions) ?>
+                        ])->textInput()->label('Username', $labelOptions) ?>
                     </div>
 
                     <div class="mb-4">
-                        <?= $form->field($model, 'contrasena', [
+                        <?= $form->field($model, 'password', [
                             'options' => ['class' => 'mb-0'],
-                            'template' => '{label}<div class="input-group">{input}<button type="button" class="btn btn-outline-secondary" data-password-toggle aria-label="Mostrar contraseña" aria-pressed="false"><i class="bi bi-eye-slash" aria-hidden="true"></i></button></div>{error}{hint}',
-                            //'template' => sprintf($htmlIcon, '&#128274;'),
+                            'template' => '{label}<div class="input-group">{input}<button type="button" class="btn btn-outline-secondary" data-password-toggle aria-label="Show password" aria-pressed="false"><i class="bi bi-eye-slash" aria-hidden="true"></i></button></div>{error}{hint}',
                             'inputOptions' => [
                                 'class' => 'form-control',
-                                'placeholder' => 'Contraseña',
+                                'placeholder' => 'Password',
                                 'autocomplete' => 'current-password',
                             ],
-                        ])->passwordInput()->label('Contraseña', $labelOptions) ?>
+                        ])->passwordInput()->label('Password', $labelOptions) ?>
                     </div>
 
                     <div class="d-grid">
