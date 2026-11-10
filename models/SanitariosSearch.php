@@ -11,6 +11,12 @@ use app\models\Sanitarios;
  */
 class SanitariosSearch extends Sanitarios
 {
+    public function beforeValidate()
+{
+    // no ejecutar el beforeValidate del padre (Sanitarios)
+    // para evitar que se genere un codigo_qr aleatorio durante las búsquedas
+    return \yii\base\Model::beforeValidate();
+}
     /**
      * {@inheritdoc}
      */
