@@ -32,32 +32,64 @@ class AlumnosServicioSocial extends \yii\db\ActiveRecord
      * {@inheritdoc}
      */
     public function rules()
-    {
-        return [
-            [['matricula'], 'default', 'value' => null],
-            [['estado'], 'default', 'value' => 1],
-            [['id_usuario'], 'required'],
-            [['id_usuario', 'estado'], 'integer'],
-            [['matricula'], 'string', 'max' => 30],
-            [['id_usuario'], 'unique'],
-            [['matricula'], 'unique'],
-            [['id_usuario'], 'exist', 'skipOnError' => true, 'targetClass' => Usuarios::class, 'targetAttribute' => ['id_usuario' => 'id_usuario']],
-        ];
+{
+    return [
+        [['id_usuario'], 'required'],
+        [['id_usuario', 'estado'], 'integer'],
+        [['matricula'], 'string', 'max' => 30],
+        [['pin'], 'string', 'max' => 10],
+        [['pin'], 'match', 'pattern' => '/^[0-9]{4,10}$/', 'message' => 'El PIN debe tener entre 4 y 10 dígitos numéricos.'],
+        [['id_usuario'], 'unique'],
+        [['matricula'], 'unique'],
+        [['pin'], 'unique'],
+        [['id_usuario'], 'exist', 'targetClass' => Usuarios::class, 'targetAttribute' => 'id_usuario'],
+        [['estado'], 'default', 'value' => 1],
+    ];
+}
+
+public function beforeSave($insert)
+{
+    if (!parent::beforeSave($insert)) {
+        return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id_alumno' => 'Id Alumno',
-            'id_usuario' => 'Id Usuario',
-            'matricula' => 'Matricula',
-            'estado' => 'Estado',
-        ];
+    if ($insert && empty($this->pin)) {
+        $this->pin = self::generatePin();
     }
 
+    return true;
+}
+
+public static function generatePin(): string
+{
+    do {
+        $pin = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+    } while (self::find()->where(['pin' => $pin])->exists());
+
+    return $pin;
+}
+
+public static function findByPin(string $pin): ?self
+{
+    $pin = trim($pin);
+    if ($pin === '' || !preg_match('/^[0-9]{4,10}$/', $pin)) {
+        return null;
+    }
+    return self::find()
+        ->where(['pin' => $pin, 'estado' => 1])
+        ->one();
+}
+
+public function attributeLabels()
+{
+    return [
+        'id_alumno' => 'ID',
+        'id_usuario' => 'Cuenta vinculada',
+        'matricula' => 'Matrícula',
+        'pin' => 'PIN personal',
+        'estado' => 'Estado',
+    ];
+}
     /**
      * Gets query for [[AlumnoHorariosSses]].
      *

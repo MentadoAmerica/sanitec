@@ -86,13 +86,21 @@ class AlumnosServicioSocialController extends Controller
         $model = new AlumnosServicioSocial();
         $model->estado = 1;
 
+        // si vienes del flujo de usuarios, precargar el id_usuario
+        if ($this->request->isGet) {
+            $idUsuario = $this->request->get('id_usuario');
+            if (!empty($idUsuario)) {
+                $model->id_usuario = (int) $idUsuario;
+            }
+        }
+
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Alumno de servicio social registrado correctamente.');
             return $this->redirect(['index']);
         }
 
         return $this->render('create', ['model' => $model]);
-    }
+    }   
 
     public function actionUpdate($id_alumno)
     {

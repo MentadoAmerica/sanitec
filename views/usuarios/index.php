@@ -103,31 +103,50 @@ $roles = Roles::find()
                     'enableSorting' => false,
                 ],
                 [
-                    'class' => ActionColumn::class,
-                    'template' => '{view} {update} {delete}',
-                    'header' => 'Acciones',
-                    'headerOptions' => ['style' => 'width: 220px'],
-                    'buttons' => [
-                        'view' => function ($url) {
-                            return Html::a('Ver', $url, ['class' => 'btn-action-view']);
-                        },
-                        'update' => function ($url) {
-                            return Html::a('Editar', $url, ['class' => 'btn-action-edit']);
-                        },
-                        'delete' => function ($url) {
-                            return Html::a('Eliminar', $url, [
-                                'class' => 'btn-action-delete',
-                                'data' => [
-                                    'confirm' => '¿Confirmas eliminar este usuario?',
-                                    'method' => 'post',
-                                ],
-                            ]);
-                        },
-                    ],
-                    'urlCreator' => function ($action, Usuarios $model) {
-                        return Url::to([$action, 'id_usuario' => $model->id_usuario]);
-                    },
+    'class' => ActionColumn::class,
+    'template' => '{view} {update} {completar} {delete}',
+    'header' => 'Acciones',
+    'headerOptions' => ['style' => 'width: 320px'],
+    'buttons' => [
+        'view' => function ($url) {
+            return Html::a('Ver', $url, ['class' => 'btn-action-view']);
+        },
+        'update' => function ($url) {
+            return Html::a('Editar', $url, ['class' => 'btn-action-edit']);
+        },
+        'completar' => function ($url, $model) {
+            // solo si es rol 2 y no tiene registro de alumno
+            if ((int) $model->id_rol !== 2) {
+                return '';
+            }
+            $tieneAlumno = \app\models\AlumnosServicioSocial::find()
+                ->where(['id_usuario' => $model->id_usuario])
+                ->exists();
+            if ($tieneAlumno) {
+                return '';
+            }
+            return Html::a('Completar registro', [
+                '/alumnos-servicio-social/create',
+                'id_usuario' => $model->id_usuario,
+            ], ['class' => 'btn-action-edit']);
+        },
+        'delete' => function ($url) {
+            return Html::a('Eliminar', $url, [
+                'class' => 'btn-action-delete',
+                'data' => [
+                    'confirm' => '¿Confirmas eliminar este usuario?',
+                    'method' => 'post',
                 ],
+            ]);
+        },
+    ],
+    'urlCreator' => function ($action, \app\models\Usuarios $model) {
+        if ($action === 'completar') {
+            return \yii\helpers\Url::to(['/alumnos-servicio-social/create', 'id_usuario' => $model->id_usuario]);
+        }
+        return \yii\helpers\Url::to([$action, 'id_usuario' => $model->id_usuario]);
+    },
+],
             ],
         ]); ?>
     </div>

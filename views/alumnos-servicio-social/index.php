@@ -27,17 +27,21 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="admin-page-actions">
             <?= Html::a(
-                'Ir a Inscripción de turnos <i class="bi bi-arrow-right ms-1"></i>',
-                ['/alumno-horarios-ss/index'],
-                ['class' => 'btn-secondary-admin', 'encode' => false]
-            ) ?>
-            <?= Html::a(
                 '<i class="bi bi-plus-lg me-2"></i>Registrar alumno',
                 ['create'],
                 ['class' => 'btn-primary-admin', 'encode' => false]
             ) ?>
         </div>
     </header>
+
+    <div class="admin-alert admin-alert-warning" style="margin-bottom:16px;">
+        <i class="bi bi-info-circle-fill"></i>
+        <div>
+            Para dar de alta un alumno, primero crea su cuenta en
+            <?= Html::a('Usuarios', ['/usuarios/index'], ['class' => 'fw-semibold']) ?>
+            con rol <strong>Servicio Social</strong>. El sistema te llevará automáticamente aquí para completar su matrícula y generar su PIN.
+        </div>
+    </div>
 
     <div class="admin-stat-grid">
         <div class="admin-stat-card">
@@ -87,27 +91,23 @@ $this->params['breadcrumbs'][] = $this->title;
                     'enableSorting' => false,
                 ],
                 [
-                    'label' => 'Correo',
+                    'attribute' => 'pin',
+                    'label' => 'PIN',
+                    'format' => 'raw',
                     'value' => function ($m) {
-                        return $m->usuario ? $m->usuario->correo : '—';
+                        if (empty($m->pin)) {
+                            return '<span class="admin-muted-count">sin pin</span>';
+                        }
+                        return '<code class="admin-code-chip">' . Html::encode($m->pin) . '</code>';
                     },
                     'enableSorting' => false,
                     'filter' => false,
                 ],
                 [
-                    'label' => 'Turnos',
-                    'format' => 'raw',
+                    'label' => 'Correo',
                     'value' => function ($m) {
-                        $count = (int) Yii::$app->db->createCommand(
-                            'SELECT COUNT(*) FROM {{%alumno_horarios_ss}} WHERE id_alumno = :id AND estado = 1',
-                            [':id' => $m->id_alumno]
-                        )->queryScalar();
-                        if ($count === 0) {
-                            return '<span class="admin-muted-count">sin turnos</span>';
-                        }
-                        return '<span class="admin-count-chip">' . number_format($count) . '</span>';
+                        return $m->usuario ? $m->usuario->correo : '—';
                     },
-                    'headerOptions' => ['style' => 'width: 100px'],
                     'enableSorting' => false,
                     'filter' => false,
                 ],

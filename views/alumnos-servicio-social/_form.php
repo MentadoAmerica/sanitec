@@ -64,18 +64,27 @@ $hayUsuariosSinAsignar = count($usuariosDisponibles) > 0;
                 : 'Cambia la cuenta si el alumno original ya no participa. Al guardar se actualiza la vinculación.'
             ) ?>
         </div>
-        <div class="col-md-4">
-            <?= $form->field($model, 'estado')->dropDownList(
-                [1 => 'Activo', 0 => 'Inactivo'],
-                ['class' => 'form-select']
-            )->hint('Inactivo = ya no participa pero conserva historial.') ?>
-        </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'matricula')->textInput([
-                'maxlength' => true,
-                'placeholder' => 'Número de control del alumno',
-            ])->hint('Opcional. Debe ser única en el sistema si la capturas.') ?>
-        </div>
+        <div class="col-md-3">
+    <?= $form->field($model, 'matricula')->textInput([
+        'maxlength' => true,
+        'placeholder' => 'Número de control',
+    ])->hint('Opcional.') ?>
+</div>
+<div class="col-md-3">
+    <?= $form->field($model, 'pin')->textInput([
+        'maxlength' => 10,
+        'placeholder' => 'Se genera si se deja vacío',
+    ])->hint($model->isNewRecord
+        ? 'Vacío = se genera uno automáticamente.'
+        : 'Actual: ' . Html::encode($model->pin ?: 'sin PIN')
+    ) ?>
+</div>
+<div class="col-md-6">
+    <?= $form->field($model, 'estado')->dropDownList(
+        [1 => 'Activo', 0 => 'Inactivo'],
+        ['class' => 'form-select']
+    ) ?>
+</div>
     </div>
 
     <div class="admin-form-actions">

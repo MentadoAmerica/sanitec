@@ -24,7 +24,7 @@ use yii\helpers\Url;
                     <?= Html::encode($username) ?>
                 </span>
                 <?= Html::a(
-                    '<i class="bi bi-box-arrow-right"></i> Logout (' . Html::encode($username) . ')',
+                    '<i class="bi bi-box-arrow-right"></i> Cerrar sesión (' . Html::encode($username) . ')',
                     ['/site/logout'],
                     [
                         'class' => 'btn btn-sm btn-outline-light',
@@ -33,7 +33,7 @@ use yii\helpers\Url;
                 ) ?>
             <?php else: ?>
                 <?= Html::a(
-                    '<i class="bi bi-box-arrow-in-right"></i> Login',
+                    '<i class="bi bi-box-arrow-in-right"></i> Iniciar sesión',
                     ['/site/login'],
                     ['class' => 'btn btn-sm btn-outline-light']
                 ) ?>

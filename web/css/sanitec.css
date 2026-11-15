@@ -2406,3 +2406,854 @@ body.sidebar-collapsed .sanitec-main {
     display: flex;
     gap: 8px;
 }
+
+/* lista de rondas del día */
+
+.ronda-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+.ronda-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #fffdf9;
+    border: 1px solid #e6dcd6;
+    border-radius: 8px;
+}
+
+.ronda-item-ok {
+    background: #f4faf4;
+    border-color: #c5ddb8;
+}
+
+.ronda-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ronda-item-info strong {
+    color: #2c1e22;
+    font-weight: 600;
+}
+
+/* preview del sanitario a revisar */
+
+.verif-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    background: #f2ebe3;
+    border: 1px solid #e6dcd6;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+}
+
+.verif-preview-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.verif-preview-label {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #a88a7a;
+}
+
+.verif-preview-item strong {
+    color: #2c1e22;
+    font-weight: 700;
+    font-size: .95rem;
+}
+
+/* tabs del formulario */
+
+.verif-tabs .nav-link {
+    color: #5a1522;
+    border-color: transparent;
+    border-bottom: 2px solid transparent;
+    font-weight: 600;
+    font-size: .88rem;
+}
+
+.verif-tabs .nav-link:hover {
+    color: #7b1e2f;
+    border-bottom-color: #e6dcd6;
+}
+
+.verif-tabs .nav-link.active {
+    color: #7b1e2f;
+    background: transparent;
+    border-bottom: 2px solid #7b1e2f;
+}
+
+.verif-tab-content {
+    background: #fbf8f3;
+    border: 1px solid #e6dcd6;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 20px 22px;
+}
+
+/* cada pregunta */
+
+.verif-pregunta {
+    padding: 14px 0;
+    border-bottom: 1px solid #f0e8e2;
+    margin: 0;
+}
+
+.verif-pregunta:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.verif-pregunta:first-child {
+    padding-top: 0;
+}
+
+.verif-pregunta-titulo {
+    font-size: .95rem;
+    font-weight: 600;
+    color: #2c1e22;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.verif-opciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.verif-opcion {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid #d6c8c1;
+    border-radius: 8px;
+    background: #fffdf9;
+    cursor: pointer;
+    font-size: .88rem;
+    color: #3a2b2f;
+    transition: background .15s, border-color .15s;
+}
+
+.verif-opcion:hover {
+    background: #faf5ee;
+    border-color: #b8a99f;
+}
+
+.verif-opcion input[type="radio"] {
+    accent-color: #7b1e2f;
+}
+
+.verif-opcion input[type="radio"]:checked + span {
+    font-weight: 600;
+    color: #7b1e2f;
+}
+
+.verif-opcion:has(input:checked) {
+    background: #fbeaee;
+    border-color: #7b1e2f;
+}
+
+/* input del pin */
+
+.verif-pin-input {
+    font-size: 1.6rem;
+    letter-spacing: .4em;
+    text-align: center;
+    font-weight: 700;
+    max-width: 280px;
+}
+/* ============================================
+   monitor full screen (kiosco)
+   ============================================ */
+
+body.monitor-body {
+    background: #0f0a0d;
+    color: #e8e2dc;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.monitor-screen-full {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 16px 24px;
+    gap: 14px;
+    box-sizing: border-box;
+}
+
+/* header */
+
+.monitor-full-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #2a2225;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.monitor-full-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    color: #c9a961;
+}
+
+.monitor-full-brand i {
+    font-size: 1.4rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .4; }
+}
+
+.monitor-full-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.monitor-full-counter {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 6px 14px;
+    background: #1c1618;
+    border: 1px solid #2a2225;
+    border-radius: 10px;
+}
+
+.monitor-full-counter.has-items {
+    background: #2a1519;
+    border-color: #7b1e2f;
+    animation: pulse-warn 2s infinite;
+}
+
+@keyframes pulse-warn {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(123, 30, 47, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(123, 30, 47, 0); }
+}
+
+.monitor-full-counter-num {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.monitor-full-counter.has-items .monitor-full-counter-num {
+    color: #e85d75;
+}
+
+.monitor-full-counter-label {
+    font-size: .72rem;
+    color: #a88a7a;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 600;
+}
+
+.monitor-full-clock {
+    text-align: right;
+}
+
+.monitor-full-clock span {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.monitor-full-clock small {
+    display: block;
+    color: #a88a7a;
+    font-size: .75rem;
+    text-transform: capitalize;
+    margin-top: 2px;
+}
+
+/* botón fullscreen */
+
+.monitor-fullscreen-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #1c1618;
+    border: 1px solid #2a2225;
+    color: #b49754;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+}
+
+.monitor-fullscreen-btn:hover {
+    background: #282225;
+    border-color: #c9a961;
+    color: #ffffff;
+}
+
+/* wrapper de la tabla con scroll interno */
+
+.monitor-table-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+    background: #1c1618;
+    border: 1px solid #2a2225;
+    border-radius: 12px;
+    min-height: 0;
+}
+
+.monitor-table-wrapper::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.monitor-table-wrapper::-webkit-scrollbar-track {
+    background: #0f0a0d;
+}
+
+.monitor-table-wrapper::-webkit-scrollbar-thumb {
+    background: #2a2225;
+    border-radius: 6px;
+}
+
+.monitor-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #4a3f42;
+}
+
+/* tabla */
+
+.monitor-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 1rem;
+}
+
+.monitor-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #0f0a0d;
+    color: #a88a7a;
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    text-align: left;
+    padding: 14px 16px;
+    border-bottom: 2px solid #2a2225;
+    white-space: nowrap;
+}
+
+.monitor-table thead th.col-prio    { width: 120px; }
+.monitor-table thead th.col-tipo    { width: 200px; }
+.monitor-table thead th.col-edif    { width: 130px; }
+.monitor-table thead th.col-ubic    { width: 140px; }
+.monitor-table thead th.col-desc    { min-width: 280px; }
+.monitor-table thead th.col-tiempo  { width: 140px; text-align: right; }
+.monitor-table thead th.col-estado  { width: 120px; text-align: center; }
+
+.monitor-row td {
+    padding: 16px;
+    border-bottom: 1px solid #2a2225;
+    vertical-align: middle;
+    color: #e8e2dc;
+}
+
+.monitor-row:last-child td {
+    border-bottom: none;
+}
+
+.monitor-row:hover td {
+    background: #221a1d;
+}
+
+/* franja izquierda por prioridad */
+
+.monitor-row td.col-prio {
+    border-left: 5px solid transparent;
+}
+
+.monitor-row.mon-row-urgente td.col-prio {
+    border-left-color: #e85d75;
+}
+
+.monitor-row.mon-row-urgente td {
+    background: linear-gradient(90deg, #2a1519 0%, #1c1618 70%);
+}
+
+.monitor-row.mon-row-alta td.col-prio {
+    border-left-color: #d49a2a;
+}
+
+.monitor-row.mon-row-normal td.col-prio {
+    border-left-color: #c9a961;
+}
+
+.monitor-row.mon-row-baja td.col-prio {
+    border-left-color: #6b5c55;
+}
+
+.monitor-row.mon-row-baja td {
+    opacity: .8;
+}
+
+/* chip de prioridad */
+
+.mon-chip {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    line-height: 1.1;
+}
+
+.mon-chip-urgente {
+    background: #e85d75;
+    color: #0f0a0d;
+}
+
+.mon-chip-alta {
+    background: #d49a2a;
+    color: #0f0a0d;
+}
+
+.mon-chip-normal {
+    background: #c9a961;
+    color: #0f0a0d;
+}
+
+.mon-chip-baja {
+    background: #6b5c55;
+    color: #ffffff;
+}
+
+/* id */
+
+.mon-id {
+    color: #6b5c55;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: .9rem;
+}
+
+/* tipo de reporte */
+
+.monitor-row .col-tipo strong {
+    display: block;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.25;
+}
+
+.mon-categoria {
+    font-size: .75rem;
+    color: #8a7a72;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-top: 4px;
+}
+
+/* ubicación */
+
+.mon-ubic-edificio {
+    color: #c9a961;
+    font-weight: 700;
+    font-size: .92rem;
+    line-height: 1.25;
+}
+
+.mon-ubic-sanitario {
+    color: #a88a7a;
+    font-size: .85rem;
+    margin-top: 2px;
+}
+
+/* descripción */
+
+.mon-desc {
+    color: #a88a7a;
+    font-size: .88rem;
+    line-height: 1.5;
+}
+
+.mon-desc-empty {
+    font-style: italic;
+    color: #6b5c55;
+}
+
+/* tiempo */
+
+.mon-tiempo {
+    display: inline-block;
+    color: #8a7a72;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: .95rem;
+}
+
+.mon-tiempo.is-old {
+    color: #e85d75;
+    font-weight: 700;
+}
+
+/* hora del reporte + tiempo transcurrido */
+
+.monitor-row td.col-tiempo {
+    text-align: right;
+}
+
+.mon-hora {
+    display: block;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+}
+
+.monitor-row .mon-tiempo {
+    display: block;
+    margin-top: 2px;
+    font-size: .78rem;
+    font-weight: 600;
+    color: #8a7a72;
+    text-transform: lowercase;
+    letter-spacing: .02em;
+}
+
+.monitor-row td.col-tiempo {
+    text-align: right;
+}
+
+/* estado */
+
+.monitor-row td.col-estado {
+    text-align: center;
+}
+
+.mon-estado {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #2a2225;
+    color: #c9a961;
+    font-size: .75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+/* empty state */
+
+.monitor-full-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+    gap: 12px;
+}
+
+.monitor-full-empty i {
+    font-size: 5rem;
+    color: #4a6b34;
+}
+
+.monitor-full-empty h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.monitor-full-empty p {
+    font-size: 1rem;
+    color: #8a7a72;
+    margin: 0;
+}
+
+/* footer */
+
+.monitor-full-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #2a2225;
+    color: #6b5c55;
+    font-size: .75rem;
+    flex-shrink: 0;
+}
+
+.monitor-full-footer a {
+    color: #c9a961;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color .15s;
+}
+
+.monitor-full-footer a:hover {
+    color: #e8e2dc;
+    text-decoration: none;
+}
+
+/* responsive */
+
+@media (max-width: 992px) {
+    .monitor-screen-full {
+        padding: 12px;
+        gap: 10px;
+    }
+    .monitor-full-clock span {
+        font-size: 1.5rem;
+    }
+    .monitor-full-counter-num {
+        font-size: 1.3rem;
+    }
+    .monitor-table {
+        font-size: .85rem;
+    }
+    .monitor-row td {
+        padding: 10px;
+    }
+    .monitor-row .col-tipo strong {
+        font-size: .92rem;
+    }
+    .monitor-table thead th.col-desc,
+    .monitor-table td.col-desc {
+        display: none;
+    }
+}
+
+/* edificio */
+
+.mon-edificio {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: .02em;
+}
+
+/* ubicación: sanitario + tipo */
+
+.mon-sanitario {
+    color: #c9a961;
+    font-weight: 700;
+    font-size: .92rem;
+    line-height: 1.25;
+}
+
+.mon-sanitario-tipo {
+    color: #a88a7a;
+    font-size: .82rem;
+    margin-top: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+/* ============================================
+   botón "vista completa" del dashboard intendente
+   ============================================ */
+
+.monitor-header-cta {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.monitor-header-cta .btn-monitor-fullscreen {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    background: #7b1e2f;
+    color: #ffffff;
+    border: 1px solid #7b1e2f;
+    border-radius: 8px;
+    font-size: .82rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background .15s, border-color .15s, transform .1s;
+    white-space: nowrap;
+}
+
+.monitor-header-cta .btn-monitor-fullscreen:hover,
+.monitor-header-cta .btn-monitor-fullscreen:focus {
+    background: #5a1522;
+    border-color: #5a1522;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.monitor-header-cta .btn-monitor-fullscreen:active {
+    transform: translateY(1px);
+}
+
+.monitor-header-cta .btn-monitor-fullscreen i {
+    font-size: .9rem;
+}
+
+/* ajuste del header para que el botón no rompa el layout en pantallas pequeñas */
+
+@media (max-width: 768px) {
+    .monitor-header-cta {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+    .monitor-header-cta .btn-monitor-fullscreen {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ============================================
+   sidebar: grupos colapsables (admin)
+   ============================================ */
+
+/* botón de grupo */
+.nav-group-toggle {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    padding: 9px 12px;
+    color: #2c1e22 !important;
+    font-weight: 500;
+    border-radius: 6px;
+    margin: 2px 0;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+}
+
+.nav-group-toggle:hover,
+.nav-group-toggle:focus {
+    background: #f2e8e3;
+    color: #7b1e2f !important;
+    outline: none;
+}
+
+.nav-group-toggle.active-group {
+    color: #7b1e2f !important;
+    font-weight: 700;
+    background: #f2e8e3;
+}
+
+.nav-group-label {
+    flex: 1;
+}
+
+/* flecha que rota al abrir */
+.nav-group-arrow {
+    font-size: .65rem;
+    color: #a88a7a;
+    margin-left: auto;
+    transition: transform .25s ease;
+}
+
+.nav-group-toggle[aria-expanded="true"] .nav-group-arrow {
+    transform: rotate(180deg);
+    color: #7b1e2f;
+}
+
+/* lista de hijos */
+.nav-group-children {
+    padding-left: 8px;
+    margin-left: 16px;
+    border-left: 2px solid #e6dcd6;
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+/* enlaces hijos */
+.nav-child-link {
+    color: #5a4a44 !important;
+    font-size: .88rem;
+    padding: 7px 10px !important;
+    margin: 1px 0;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background .15s, color .15s;
+}
+
+.nav-child-link .bi {
+    font-size: .85rem;
+    color: #8a7a72;
+    transition: color .15s;
+}
+
+.nav-child-link:hover,
+.nav-child-link:focus {
+    background: #f2e8e3;
+    color: #7b1e2f !important;
+}
+
+.nav-child-link:hover .bi {
+    color: #7b1e2f;
+}
+
+/* hijo activo */
+.nav-child-link.active {
+    background: #7b1e2f !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+.nav-child-link.active .bi {
+    color: #ffffff !important;
+}
+
+/* animación suave al expandir (Bootstrap ya la trae, esto la refuerza) */
+.nav-group .collapse {
+    transition: height .25s ease;
+}
+
+/* en móvil o sidebar colapsado se ve igual */
+@media (max-width: 991.98px) {
+    .nav-group-children {
+        margin-left: 12px;
+    }
+}

@@ -8,8 +8,8 @@ $this->title = 'My Application';
 ?>
 <main class="public-home">
     <div class="mb-3">
-        <h1>My Application</h1>
-        <p><a href="<?= Yii::$app->urlManager->createUrl(['site/about']) ?>">About</a></p>
+       <!-- <h1>My Application</h1>
+        <p><a href="<?= Yii::$app->urlManager->createUrl(['site/about']) ?>">About</a></p-->
     </div>
 
     <section class="public-hero">

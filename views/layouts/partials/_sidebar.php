@@ -22,35 +22,81 @@ if (Yii::$app->user->isGuest) {
     $rol = (int) (Yii::$app->user->identity->id_rol ?? 0);
 
     switch ($rol) {
-        case 1: // administrador
-            $menuItems = [
-                ['label' => 'Dashboard',                'url' => ['/site/index'],                          'icon' => 'bi-speedometer2'],
-                ['label' => 'Usuarios y roles',         'url' => ['/usuarios/index'],                     'icon' => 'bi-people'],
-                ['label' => 'Edificios',                'url' => ['/edificios/index'],                    'icon' => 'bi-building'],
-                ['label' => 'Sanitarios',               'url' => ['/sanitarios/index'],                   'icon' => 'bi-building'],
-                ['label' => 'Personal de limpieza',     'url' => ['/personal/index'],                     'icon' => 'bi-person-badge'],
-                ['label' => 'Horarios y asignaciones',  'url' => ['/horarios-personal/index'],            'icon' => 'bi-calendar-week'],
-                ['label' => 'Horarios servicio social','url' => ['/horarios-servicio-social/index'],     'icon' => 'bi-calendar-week'],
-                ['label' => 'Programar rondas',         'url' => ['/rondas-programadas/index'],           'icon' => 'bi-signpost-split'],
-                ['label' => 'Seguimiento de servicios', 'url' => ['/servicios/index'],                    'icon' => 'bi-clipboard-check'],
-                ['label' => 'Reportes e incidencias',   'url' => ['/reportes/index'],                     'icon' => 'bi-exclamation-triangle'],
-                ['label' => 'Solicitudes de insumos',   'url' => ['/solicitudes-abastecimiento/index'],   'icon' => 'bi-box-arrow-in-down'],
-                ['label' => 'Inventario',               'url' => ['/materiales/index'],                   'icon' => 'bi-box-seam'],
-                ['label' => 'Servicio Social',          'url' => ['/alumno-horarios-ss/index'],           'icon' => 'bi-mortarboard'],
-                ['label' => 'Encuestas',                'url' => ['/evaluaciones-satisfaccion/index'],    'icon' => 'bi-emoji-smile'],
-                ['label' => 'Catálogos',                'url' => ['/roles/index'],                        'icon' => 'bi-gear'],
-            ];
-            break;
+       case 1: // administrador
+    $menuItems = [
+        [
+            'label' => 'Dashboard',
+            'url' => ['/site/index'],
+            'icon' => 'bi-speedometer2',
+        ],
+        [
+            'label' => 'Operación',
+            'icon' => 'bi-clipboard-check',
+            'children' => [
+                ['label' => 'Reportes e incidencias', 'url' => ['/reportes/index'], 'icon' => 'bi-exclamation-triangle'],
+                ['label' => 'Seguimiento de servicios', 'url' => ['/servicios/index'], 'icon' => 'bi-clock-history'],
+            ],
+        ],
+        [
+            'label' => 'Servicio Social',
+            'icon' => 'bi-mortarboard',
+            'children' => [
+                ['label' => 'Programar rondas', 'url' => ['/rondas-programadas/index'], 'icon' => 'bi-signpost-split'],
+                ['label' => 'Alumnos de servicio social', 'url' => ['/alumnos-servicio-social/index'], 'icon' => 'bi-people'],
+                ['label' => 'Turnos de servicio social', 'url' => ['/horarios-servicio-social/index'], 'icon' => 'bi-calendar-week'],
+            ],
+        ],
+        [
+            'label' => 'Personal y horarios',
+            'icon' => 'bi-person-badge',
+            'children' => [
+                ['label' => 'Personal de limpieza', 'url' => ['/personal/index'], 'icon' => 'bi-person-badge'],
+                ['label' => 'Horarios de intendencia', 'url' => ['/horarios-personal/index'], 'icon' => 'bi-calendar-week'],
+            ],
+        ],
+        [
+            'label' => 'Inventario',
+            'icon' => 'bi-box-seam',
+            'children' => [
+                ['label' => 'Materiales', 'url' => ['/materiales/index'], 'icon' => 'bi-box-seam'],
+                ['label' => 'Solicitudes de insumos', 'url' => ['/solicitudes-abastecimiento/index'], 'icon' => 'bi-box-arrow-in-down'],
+            ],
+        ],
+        [
+            'label' => 'Infraestructura',
+            'icon' => 'bi-building',
+            'children' => [
+                ['label' => 'Edificios', 'url' => ['/edificios/index'], 'icon' => 'bi-building'],
+                ['label' => 'Sanitarios', 'url' => ['/sanitarios/index'], 'icon' => 'bi-door-open'],
+            ],
+        ],
+        [
+            'label' => 'Configuración',
+            'icon' => 'bi-gear',
+            'children' => [
+                ['label' => 'Usuarios y roles', 'url' => ['/usuarios/index'], 'icon' => 'bi-people'],
+                ['label' => 'Catálogo de roles', 'url' => ['/roles/index'], 'icon' => 'bi-list'],
+            ],
+        ],
+        [
+            'label' => 'Encuestas',
+            'icon' => 'bi-emoji-smile',
+            'children' => [
+                ['label' => 'Ver respuestas', 'url' => ['/evaluaciones-satisfaccion/index'], 'icon' => 'bi-chat-square-text'],
+                ['label' => 'Administrar preguntas', 'url' => ['/evaluaciones-satisfaccion/preguntas'], 'icon' => 'bi-question-circle'],
+            ],
+        ],
+    ];
+    break;
 
-        case 2: // servicio social
-            $menuItems = [
-                ['label' => 'Mis actividades', 'url' => ['/site/index'],                 'icon' => 'bi-speedometer2'],
-                ['label' => 'Mis rondas',      'url' => ['/rondas-programadas/index'],   'icon' => 'bi-signpost-split'],
-                ['label' => 'Historial',       'url' => ['/verificaciones/index'],       'icon' => 'bi-clock-history'],
-                ['label' => 'Reportes',        'url' => ['/reportes/index'],             'icon' => 'bi-exclamation-triangle'],
-                ['label' => 'Solicitar insumos','url' => ['/solicitudes-abastecimiento/index'], 'icon' => 'bi-box-arrow-in-down'],
-            ];
-            break;
+      case 2:
+    $menuItems = [
+        ['label' => 'Seguimiento',         'url' => ['/site/index'],                'icon' => 'bi-speedometer2'],
+        ['label' => 'Rondas del día',      'url' => ['/rondas-programadas/index'], 'icon' => 'bi-signpost-split'],
+        ['label' => 'Mis verificaciones',  'url' => ['/verificaciones/index'],     'icon' => 'bi-clock-history'],
+        ['label' => 'Reportes',            'url' => ['/reportes/index'],           'icon' => 'bi-exclamation-triangle'],
+    ];
+    break;
 
         case 3: // intendente
             $menuItems = [
@@ -89,43 +135,93 @@ $currentTipo       = Yii::$app->request->get('tipo');
         <?= Html::a(
             Html::img('@web/images/logo-tec.jpg', [
                 'alt' => 'TecNM Matamoros',
-                'class' => 'img-fluid sidebar-brand-logo',
+                'class' => 'img-fluid',
+                'style' => 'max-height: 110px;',
             ]),
             Url::home()
         ) ?>
-        <div class="sidebar-brand-name">SANITEC</div>
+        <div class="small text-muted mt-2">SANITEC</div>
     </div>
 
     <nav class="sidebar-nav">
         <ul class="nav flex-column px-2">
             <?php foreach ($menuItems as $item):
-                $ruta     = $item['url'][0] ?? '';
-                $tipoItem = $item['url']['tipo'] ?? null;
 
-                $partes     = explode('/', trim($ruta, '/'));
-                $ctrlItem   = $partes[0] ?? '';
-                $accionItem = $partes[1] ?? 'index';
+                // ===== item directo (sin hijos) =====
+                if (empty($item['children'])) {
+                    $ruta = $item['url'][0] ?? '';
+                    $tipoItem = $item['url']['tipo'] ?? null;
 
-                // coincide controlador + accion
-                $isActive = ($ctrlItem === $currentController && $accionItem === $currentAction);
+                    $partes = explode('/', trim($ruta, '/'));
+                    $ctrlItem = $partes[0] ?? '';
+                    $accionItem = $partes[1] ?? 'index';
 
-                // si el item tiene tipo, tambien debe coincidir
-                if ($tipoItem !== null) {
-                    $isActive = $isActive && ($tipoItem === $currentTipo);
-                } elseif ($accionItem === 'create' && $currentTipo !== null) {
-                    // item que apunta a create sin tipo, no marcar si la url trae tipo
-                    $isActive = false;
+                    $isActive = ($ctrlItem === $currentController && $accionItem === $currentAction);
+                    if ($tipoItem !== null) {
+                        $isActive = $isActive && ($tipoItem === $currentTipo);
+                    }
+                    ?>
+                    <li class="nav-item">
+                        <?= Html::a(
+                            '<i class="bi ' . ($item['icon'] ?? 'bi-circle') . ' me-2"></i> ' . Html::encode($item['label']),
+                            $item['url'],
+                            [
+                                'class' => 'nav-link sanitec-nav-link' . ($isActive ? ' active' : ''),
+                                'encode' => false,
+                            ]
+                        ) ?>
+                    </li>
+                    <?php
+                    continue;
                 }
-            ?>
-                <li class="nav-item">
-                    <?= Html::a(
-                        '<i class="bi ' . ($item['icon'] ?? 'bi-circle') . ' me-2"></i> ' . Html::encode($item['label']),
-                        $item['url'],
-                        [
-                            'class' => 'nav-link sanitec-nav-link' . ($isActive ? ' active' : ''),
-                            'encode' => false,
-                        ]
-                    ) ?>
+
+                // ===== grupo con hijos =====
+                $hijoActivo = false;
+                foreach ($item['children'] as $hijo) {
+                    $partes = explode('/', trim($hijo['url'][0] ?? '', '/'));
+                    $ctrlHijo = $partes[0] ?? '';
+                    $accionHijo = $partes[1] ?? 'index';
+                    if ($ctrlHijo === $currentController && $accionHijo === $currentAction) {
+                        $hijoActivo = true;
+                        break;
+                    }
+                }
+
+                $grupoId = 'grupo-' . strtolower(preg_replace('/[^a-z0-9]+/i', '-', $item['label']));
+                ?>
+                <li class="nav-item nav-group">
+                    <button type="button"
+                            class="nav-link sanitec-nav-link nav-group-toggle<?= $hijoActivo ? ' active-group' : '' ?>"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#<?= $grupoId ?>"
+                            aria-expanded="<?= $hijoActivo ? 'true' : 'false' ?>"
+                            aria-controls="<?= $grupoId ?>">
+                        <i class="bi <?= $item['icon'] ?? 'bi-circle' ?> me-2"></i>
+                        <span class="nav-group-label"><?= Html::encode($item['label']) ?></span>
+                        <i class="bi bi-chevron-down nav-group-arrow"></i>
+                    </button>
+
+                    <div class="collapse<?= $hijoActivo ? ' show' : '' ?>" id="<?= $grupoId ?>">
+                        <ul class="nav flex-column nav-group-children">
+                            <?php foreach ($item['children'] as $hijo):
+                                $partes = explode('/', trim($hijo['url'][0] ?? '', '/'));
+                                $ctrlHijo = $partes[0] ?? '';
+                                $accionHijo = $partes[1] ?? 'index';
+                                $isActive = ($ctrlHijo === $currentController && $accionHijo === $currentAction);
+                                ?>
+                                <li class="nav-item">
+                                    <?= Html::a(
+                                        '<i class="bi ' . ($hijo['icon'] ?? 'bi-circle') . ' me-2"></i> ' . Html::encode($hijo['label']),
+                                        $hijo['url'],
+                                        [
+                                            'class' => 'nav-link sanitec-nav-link nav-child-link' . ($isActive ? ' active' : ''),
+                                            'encode' => false,
+                                        ]
+                                    ) ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
                 </li>
             <?php endforeach; ?>
         </ul>

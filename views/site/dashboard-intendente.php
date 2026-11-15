@@ -25,16 +25,29 @@ $clasePrio = function (string $p): string {
             <h1 class="monitor-title">Reportes del día</h1>
         </div>
         <div class="monitor-clock">
-            <div class="monitor-time" id="monitor-time"><?= date('H:i') ?></div>
+           <!-- <div class="monitor-time" id="monitor-time"><?= date('H:i') ?></div>
             <?php
             $dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
             $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
             $fechaEspanol = $dias[(int) date('w')] . ' ' . date('d') . ' de ' . $meses[(int) date('n') - 1] . ' de ' . date('Y');
             ?>
-            <div class="monitor-date"><?= Html::encode($fechaEspanol) ?></div>
+            <div class="monitor-date"><?= Html::encode($fechaEspanol) ?></div>-->
+        </div>
+        <div class="monitor-header-cta">
+            <?= Html::a(
+                '<i class="bi bi-fullscreen me-1"></i>Vista completa',
+                ['/monitor/index'],
+                [
+                    'class' => 'btn-monitor-fullscreen',
+                    'encode' => false,
+                    'target' => '_blank',
+                    'rel' => 'noopener',
+                ]
+            ) ?>
         </div>
     </header>
-
+ 
+    
     <div class="monitor-summary">
         <div class="monitor-counter<?= $totalPendientes > 0 ? ' monitor-counter-danger' : '' ?>">
             <div class="monitor-counter-label">Pendientes</div>

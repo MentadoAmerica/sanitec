@@ -61,6 +61,14 @@ $nombre = $usuario ? $usuario->getNombreCompleto() : 'Alumno sin cuenta';
                                 : '<span class="admin-muted-count">sin matrícula</span>',
                         ],
                         [
+                            'attribute' => 'pin',
+                            'label' => 'PIN personal',
+                            'format' => 'raw',
+                            'value' => $model->pin
+                                ? '<code class="admin-code-chip">' . Html::encode($model->pin) . '</code>'
+                                : '<span class="admin-muted-count">sin pin</span>',
+                        ],
+                        [
                             'attribute' => 'estado',
                             'label' => 'Estado',
                             'format' => 'raw',

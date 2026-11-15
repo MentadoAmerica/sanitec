@@ -57,17 +57,26 @@ class UsuariosController extends Controller
     }
 
     public function actionCreate()
-    {
-        $model = new Usuarios();
-        $model->scenario = 'create';
+{
+    $model = new Usuarios();
+    $model->scenario = 'create';
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Usuario registrado correctamente.');
-            return $this->redirect(['index']);
+    if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        Yii::$app->session->setFlash('success', 'Usuario registrado correctamente.');
+
+        // si es rol servicio social, redirigir a crear su registro de alumno
+        if ((int) $model->id_rol === 2) {
+            return $this->redirect([
+                '/alumnos-servicio-social/create',
+                'id_usuario' => $model->id_usuario,
+            ]);
         }
 
-        return $this->render('create', ['model' => $model]);
+        return $this->redirect(['index']);
     }
+
+    return $this->render('create', ['model' => $model]);
+}
 
     public function actionUpdate($id_usuario)
     {
