@@ -86,6 +86,26 @@ $edificio = $sanitario ? $sanitario->edificio : null;
             <?php endif; ?>
         </div>
 
+        <?php if (!empty($model->evidencia_foto)): ?>
+    <div class="admin-card mt-3">
+        <h2 class="h6 fw-bold mb-2">
+            <i class="bi bi-camera me-1"></i>Evidencia fotográfica
+        </h2>
+        <?php
+        $esUrl = (bool) preg_match('#^https?://#i', $model->evidencia_foto);
+        $src = $esUrl
+            ? $model->evidencia_foto
+            : Yii::getAlias('@web/' . $model->evidencia_foto);
+        ?>
+        <a href="<?= Html::encode($src) ?>" target="_blank" rel="noopener">
+            <img src="<?= Html::encode($src) ?>"
+                 alt="Evidencia de la verificación"
+                 style="max-width:100%;max-height:420px;border-radius:10px;border:1px solid #e6dcd6;display:block;">
+        </a>
+        <div class="form-text mt-2">Clic en la imagen para verla en tamaño completo.</div>
+    </div>
+<?php endif; ?>
+
         <div class="col-12 col-lg-5">
             <div class="admin-card">
                 <h2 class="h6 fw-bold mb-3">Reportes generados</h2>

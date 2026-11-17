@@ -1,3 +1,8 @@
+/web/uploads/verificaciones/*
+!/web/uploads/verificaciones/.gitkeep
+/web/uploads/reportes/*
+!/web/uploads/reportes/.gitkeep
+
 # phpstorm project files
 .idea
 

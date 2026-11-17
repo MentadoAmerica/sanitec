@@ -19,6 +19,22 @@ $edificios = Edificios::find()
     ->select(['nombre', 'id_edificio'])
     ->indexBy('id_edificio')
     ->column();
+
+// CSS para que los 4 botones de acciones queden alineados y con aire
+$this->registerCss(<<<CSS
+.admin-table td .admin-actions {
+    display: flex;
+    gap: .35rem;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.admin-table td .admin-actions a {
+    white-space: nowrap;
+    font-size: .78rem;
+    padding: .28rem .55rem;
+    line-height: 1.1;
+}
+CSS);
 ?>
 
 <section class="admin-page">
@@ -48,12 +64,7 @@ $edificios = Edificios::find()
             'summary' => 'Mostrando {begin} a {end} de {total} registros',
             'emptyText' => 'No hay sanitarios registrados.',
             'columns' => [
-                [
-                    'attribute' => 'id_sanitario',
-                    'label' => 'ID',
-                    'headerOptions' => ['style' => 'width: 70px'],
-                    'enableSorting' => false,
-                ],
+                // ❌ Columna ID eliminada para liberar espacio
                 [
                     'attribute' => 'id_edificio',
                     'label' => 'Edificio',
@@ -103,9 +114,11 @@ $edificios = Edificios::find()
                 ],
                 [
                     'class' => ActionColumn::class,
-                    'template' => '{view} {update} {qr} {delete}',
+                    // ✅ Envolvemos los 4 botones en un contenedor flex
+                    'template' => '<div class="admin-actions">{view}{update}{qr}{delete}</div>',
                     'header' => 'Acciones',
-                    'headerOptions' => ['style' => 'width: 260px'],
+                    'headerOptions' => ['style' => 'width: 250px; min-width: 250px'],
+                    'contentOptions' => ['style' => 'min-width: 250px'],
                     'buttons' => [
                         'view' => function ($url) {
                             return Html::a('Ver', $url, ['class' => 'btn-action-view']);

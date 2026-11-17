@@ -68,65 +68,49 @@ class EvaluacionesSatisfaccionController extends Controller
     }
 
     public function actionEditarPregunta(int $id): Response|string
-    {
-        $model = PreguntasSatisfaccion::findOne($id);
-        if ($model === null) {
-            throw new NotFoundHttpException('La pregunta solicitada no existe.');
-        }
-
-        $options = $model->getOptions();
-        $opcionesTexto = implode("\n", array_values($options));
-
-        if ($this->request->isPost) {
-            $attributes = $this->request->post($model->formName(), []);
-            if (!is_array($attributes)) {
-                $attributes = [];
-            }
-            unset($attributes['id_pregunta'], $attributes['categoria'], $attributes['opciones_json']);
-            $model->load([$model->formName() => $attributes]);
-
-            $opcionesTexto = trim((string) $this->request->post('opciones_texto', ''));
-            $lineas = preg_split('/\R/u', $opcionesTexto) ?: [];
-            $lineas = array_values(array_filter(array_map('trim', $lineas), static fn(string $linea): bool => $linea !== ''));
-
-            $esCalificacion = $model->categoria === 'calificacion';
-            $minimo = $esCalificacion ? (int) $model->escala_min : 1;
-            $maximo = $esCalificacion ? (int) $model->escala_max : count($lineas);
-            $cantidadEsperada = $esCalificacion ? $maximo - $minimo + 1 : count($lineas);
-            $errorOpciones = null;
-
-            if ($lineas === []) {
-                $errorOpciones = 'Agrega al menos una opción.';
-            } elseif ($esCalificacion && count($lineas) !== $cantidadEsperada) {
-                $errorOpciones = 'La cantidad de opciones debe coincidir con el rango mínimo y máximo.';
-            } elseif (!$esCalificacion && count($lineas) > 20) {
-                $errorOpciones = 'Puedes registrar hasta 20 opciones.';
-            } else {
-                $options = [];
-                foreach ($lineas as $index => $label) {
-                    $options[$esCalificacion ? $minimo + $index : $index + 1] = $label;
-                }
-                $model->opciones_json = json_encode($options, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
-            }
-
-            $model->validate();
-            if ($errorOpciones !== null) {
-                $model->addError('opciones_json', $errorOpciones);
-            }
-
-            if (!$model->hasErrors()) {
-                if ($model->save(false)) {
-                    Yii::$app->session->setFlash('success', 'La pregunta se actualizó correctamente.');
-                    return $this->redirect(['preguntas']);
-                }
-
-                throw new \RuntimeException('No se pudo guardar la pregunta.');
-            }
-        }
-
-        return $this->render('editar-pregunta', [
-            'model' => $model,
-            'opcionesTexto' => $opcionesTexto,
-        ]);
+{
+    $model = PreguntasSatisfaccion::findOne($id);
+    if ($model === null) {
+        throw new NotFoundHttpException('La pregunta solicitada no existe.');
     }
+
+    if ($this->request->isPost) {
+        $attributes = $this->request->post($model->formName(), []);
+        if (!is_array($attributes)) {
+            $attributes = [];
+        }
+        unset($attributes['id_pregunta'], $attributes['categoria'], $attributes['opciones_json'], $attributes['escala_min'], $attributes['escala_max']);
+        $model->load([$model->formName() => $attributes]);
+
+        $opcionesJson = (string) $this->request->post('opciones_json', '[]');
+        $opcionesArr = json_decode($opcionesJson, true);
+
+        if (!is_array($opcionesArr) || count($opcionesArr) < 2) {
+            $model->addError('opciones_json', 'Agrega al menos dos opciones.');
+        } else {
+            $opcionesFinales = [];
+            $i = 1;
+            foreach ($opcionesArr as $fila) {
+                $texto = trim((string) ($fila['texto'] ?? ''));
+                if ($texto === '') continue;
+                $opcionesFinales[(string) $i] = $texto;
+                $i++;
+            }
+            if (count($opcionesFinales) < 2) {
+                $model->addError('opciones_json', 'Agrega al menos dos opciones válidas.');
+            } else {
+                $model->opciones_json = json_encode($opcionesFinales, JSON_UNESCAPED_UNICODE);
+                $model->escala_min = 1;
+                $model->escala_max = count($opcionesFinales);
+            }
+        }
+
+        if (!$model->hasErrors() && $model->save(false)) {
+            Yii::$app->session->setFlash('success', 'La pregunta se actualizó correctamente.');
+            return $this->redirect(['preguntas']);
+        }
+    }
+
+    return $this->render('editar-pregunta', ['model' => $model]);
+}
 }

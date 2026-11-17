@@ -51,7 +51,10 @@ $turno = $ronda->horarioSs;
         </div>
     </div>
 
-    <?= Html::beginForm(['store'], 'post', ['id' => 'verificacion-form']) ?>
+    <?= Html::beginForm(['store'], 'post', [
+    'id' => 'verificacion-form',
+    'enctype' => 'multipart/form-data',
+]) ?>
     <input type="hidden" name="id_ronda" value="<?= (int) $ronda->id_ronda ?>">
     <input type="hidden" name="<?= Yii::$app->request->csrfParam ?>" value="<?= Yii::$app->request->csrfToken ?>">
 
@@ -106,7 +109,42 @@ $turno = $ronda->horarioSs;
         <textarea name="observaciones" class="form-control" rows="3"
                   placeholder="Describe cualquier detalle relevante"></textarea>
     </div>
+<div class="admin-card mt-3">
+    <h2 class="h6 fw-bold mb-2">
+        <i class="bi bi-camera me-1"></i>Evidencia fotográfica (opcional)
+    </h2>
+    <p class="admin-muted-count mb-3">
+        Puedes adjuntar una foto del estado del sanitario. Esta foto quedará vinculada
+        a los reportes que se generen a partir de esta verificación.
+    </p>
 
+    <label for="evidencia" class="btn-evidencia-upload">
+        <i class="bi bi-upload"></i>
+        <span id="evidencia-label">Seleccionar imagen o tomar foto</span>
+        <input type="file"
+               name="evidencia"
+               id="evidencia"
+               accept="image/jpeg,image/png,image/webp"
+               capture="environment"
+               style="display:none;">
+    </label>
+
+    <div class="form-text mt-2">
+        Formatos: JPG, PNG o WEBP · Tamaño máximo: 5 MB
+    </div>
+
+    <div id="evidencia-preview-wrap" style="display:none;margin-top:14px;">
+        <img id="evidencia-preview-img"
+             alt="Vista previa de la evidencia"
+             style="max-width:100%;max-height:320px;border-radius:8px;border:1px solid #e6dcd6;">
+        <button type="button"
+                id="evidencia-remove"
+                class="btn btn-sm mt-2"
+                style="background:#fbeaee;color:#7b1e2f;border:1px solid #e8c5cc;">
+            <i class="bi bi-x-lg me-1"></i>Quitar foto
+        </button>
+    </div>
+</div>
     <div class="admin-card mt-3">
         <h2 class="h6 fw-bold mb-2">PIN personal</h2>
         <p class="admin-muted-count mb-2">
@@ -131,3 +169,50 @@ $turno = $ronda->horarioSs;
 
     <?= Html::endForm() ?>
 </section>
+
+<?php
+// JS de preview de evidencia (va al final del archivo, después del registerJs de tabs)
+$this->registerJs(<<<JS
+(function () {
+    var evidenciaInput = document.getElementById('evidencia');
+    var evidenciaLabel = document.getElementById('evidencia-label');
+    var evidenciaPreviewWrap = document.getElementById('evidencia-preview-wrap');
+    var evidenciaPreviewImg = document.getElementById('evidencia-preview-img');
+    var evidenciaRemove = document.getElementById('evidencia-remove');
+
+    if (!evidenciaInput) {
+        return;
+    }
+
+    evidenciaInput.addEventListener('change', function () {
+        var file = this.files && this.files[0];
+        if (!file) {
+            evidenciaPreviewWrap.style.display = 'none';
+            evidenciaLabel.textContent = 'Seleccionar imagen o tomar foto';
+            return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            alert('La imagen excede 5 MB. Selecciona una más pequeña.');
+            this.value = '';
+            evidenciaPreviewWrap.style.display = 'none';
+            evidenciaLabel.textContent = 'Seleccionar imagen o tomar foto';
+            return;
+        }
+        evidenciaLabel.textContent = file.name;
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            evidenciaPreviewImg.src = e.target.result;
+            evidenciaPreviewWrap.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    });
+
+    evidenciaRemove.addEventListener('click', function () {
+        evidenciaInput.value = '';
+        evidenciaLabel.textContent = 'Seleccionar imagen o tomar foto';
+        evidenciaPreviewWrap.style.display = 'none';
+        evidenciaPreviewImg.src = '';
+    });
+})();
+JS
+);

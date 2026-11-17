@@ -41,7 +41,7 @@ if (Yii::$app->user->isGuest) {
             'label' => 'Servicio Social',
             'icon' => 'bi-mortarboard',
             'children' => [
-                ['label' => 'Programar rondas', 'url' => ['/rondas-programadas/index'], 'icon' => 'bi-signpost-split'],
+                ['label' => 'Programar rondas', 'url' => ['/rondas-programadas/create'], 'icon' => 'bi-signpost-split'],
                 ['label' => 'Alumnos de servicio social', 'url' => ['/alumnos-servicio-social/index'], 'icon' => 'bi-people'],
                 ['label' => 'Turnos de servicio social', 'url' => ['/horarios-servicio-social/index'], 'icon' => 'bi-calendar-week'],
             ],
@@ -78,14 +78,21 @@ if (Yii::$app->user->isGuest) {
                 ['label' => 'Catálogo de roles', 'url' => ['/roles/index'], 'icon' => 'bi-list'],
             ],
         ],
-        [
-            'label' => 'Encuestas',
-            'icon' => 'bi-emoji-smile',
-            'children' => [
-                ['label' => 'Ver respuestas', 'url' => ['/evaluaciones-satisfaccion/index'], 'icon' => 'bi-chat-square-text'],
-                ['label' => 'Administrar preguntas', 'url' => ['/evaluaciones-satisfaccion/preguntas'], 'icon' => 'bi-question-circle'],
-            ],
-        ],
+       [
+    'label' => 'Encuestas',
+    'icon' => 'bi-emoji-smile',
+    'children' => [
+        ['label' => 'Respuestas recibidas', 'url' => ['/evaluaciones-satisfaccion/index'], 'icon' => 'bi-chat-square-text'],
+        ['label' => 'Preguntas de satisfacción', 'url' => ['/evaluaciones-satisfaccion/preguntas'], 'icon' => 'bi-emoji-smile'],
+    ],
+],
+[
+    'label' => 'Preguntas de verificación',
+    'icon' => 'bi-list-check',
+    'children' => [
+        ['label' => 'Catálogo de verificación', 'url' => ['/preguntas-verificacion/index'], 'icon' => 'bi-list-check'],
+    ],
+],
     ];
     break;
 
