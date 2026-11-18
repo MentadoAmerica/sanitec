@@ -128,17 +128,20 @@ CONFIGURATION
 
 ## Database
 
-Edit the file `config/db.php` with real data, for example:
+The web and console entrypoints default to production mode. Set
+`SANITEC_ENV=dev` explicitly for local development. Debugging is disabled
+unless `SANITEC_DEBUG=1`; the Debug and Gii modules accept localhost only.
 
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
-```
+Configure `SANITEC_DB_HOST`, `SANITEC_DB_NAME`, `SANITEC_DB_USER`, and
+`SANITEC_DB_PASSWORD`. Production requires a non-empty database password.
+`SANITEC_COOKIE_VALIDATION_KEY` is required in every environment and must be at
+least 32 characters. Keep these values in the server or local Apache
+environment; do not commit secrets.
+
+For an explicitly selected `dev` environment only, the database config retains
+the XAMPP defaults (`127.0.0.1`, database `sanitec`, user `root`, empty
+password) when the corresponding variables are not set. Do not use these
+defaults outside an isolated local development machine.
 
 **NOTES:**
 - Yii won't create the database for you, this has to be done manually before you can access it.
