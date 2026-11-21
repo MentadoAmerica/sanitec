@@ -3614,3 +3614,138 @@ body.monitor-body {
 .pregunta-opcion-trigger {
     background: #fbf1f3;
 }
+
+/* ============================================
+   validación de verificación
+   ============================================ */
+
+/* banner de errores del servidor */
+
+.verif-errores-banner {
+    background: #fbeaee;
+    border: 1px solid #e8c5cc;
+    border-left: 4px solid #7b1e2f;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    color: #3a2b2f;
+}
+
+.verif-errores-titulo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #7b1e2f;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.verif-errores-titulo i {
+    font-size: 1.15rem;
+}
+
+.verif-errores-lista {
+    margin: 0 0 8px 0;
+    padding-left: 26px;
+    font-size: .9rem;
+    line-height: 1.5;
+}
+
+.verif-errores-lista li {
+    color: #5a1522;
+}
+
+.verif-errores-hint {
+    font-size: .82rem;
+    color: #8a7a72;
+    font-style: italic;
+}
+
+/* pregunta inválida */
+
+.verif-pregunta-invalida {
+    background: #fdf5f7 !important;
+    border-left: 3px solid #e85d75 !important;
+    padding-left: 14px !important;
+    border-radius: 6px;
+    animation: pulse-error 1.2s ease-in-out 1;
+}
+
+@keyframes pulse-error {
+    0%   { background: #fdf5f7; }
+    50%  { background: #fbe0e6; }
+    100% { background: #fdf5f7; }
+}
+
+.verif-pregunta-error {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    color: #7b1e2f;
+    font-size: .82rem;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.verif-pregunta-invalida .verif-pregunta-error {
+    display: flex;
+}
+
+.verif-pregunta-invalida .verif-pregunta-titulo {
+    color: #7b1e2f;
+}
+
+.verif-pregunta-invalida .verif-opcion {
+    border-color: #e8c5cc;
+    background: #fff6f6;
+}
+
+/* pin inválido */
+
+.verif-pin-card-invalida {
+    background: #fdf5f7 !important;
+    border: 1px solid #e8c5cc !important;
+    border-left: 4px solid #e85d75 !important;
+    animation: pulse-error 1.2s ease-in-out 1;
+}
+
+.verif-pin-error {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    color: #7b1e2f;
+    font-size: .85rem;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.verif-pin-input.is-invalid {
+    border-color: #e85d75 !important;
+    background: #fff6f6 !important;
+}
+
+/* badge de errores en la pestaña */
+
+.tab-error-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    margin-left: 6px;
+    background: #e85d75;
+    color: #ffffff;
+    border-radius: 10px;
+    font-size: .7rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* asterisco de campo obligatorio */
+
+.verif-required {
+    color: #e85d75;
+    font-weight: 700;
+    margin-left: 2px;
+}

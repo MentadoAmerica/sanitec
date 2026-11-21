@@ -24,10 +24,19 @@ if (Yii::$app->user->isGuest) {
     switch ($rol) {
        case 1: // administrador
     $menuItems = [
+        
         [
             'label' => 'Dashboard',
             'url' => ['/site/index'],
             'icon' => 'bi-speedometer2',
+        ],
+        [
+            'label' => 'Usuarios - Roles',
+            'icon' => 'bi-gear',
+            'children' => [
+                ['label' => 'Usuarios y roles', 'url' => ['/usuarios/index'], 'icon' => 'bi-people'],
+                ['label' => 'Catálogo de roles', 'url' => ['/roles/index'], 'icon' => 'bi-list'],
+            ],
         ],
         [
             'label' => 'Operación',
@@ -41,9 +50,9 @@ if (Yii::$app->user->isGuest) {
             'label' => 'Servicio Social',
             'icon' => 'bi-mortarboard',
             'children' => [
+                ['label' => 'Turnos de servicio social', 'url' => ['/horarios-servicio-social/index'], 'icon' => 'bi-calendar-week'],
                 ['label' => 'Programar rondas', 'url' => ['/rondas-programadas/create'], 'icon' => 'bi-signpost-split'],
                 ['label' => 'Alumnos de servicio social', 'url' => ['/alumnos-servicio-social/index'], 'icon' => 'bi-people'],
-                ['label' => 'Turnos de servicio social', 'url' => ['/horarios-servicio-social/index'], 'icon' => 'bi-calendar-week'],
             ],
         ],
         [
@@ -68,14 +77,6 @@ if (Yii::$app->user->isGuest) {
             'children' => [
                 ['label' => 'Edificios', 'url' => ['/edificios/index'], 'icon' => 'bi-building'],
                 ['label' => 'Sanitarios', 'url' => ['/sanitarios/index'], 'icon' => 'bi-door-open'],
-            ],
-        ],
-        [
-            'label' => 'Configuración',
-            'icon' => 'bi-gear',
-            'children' => [
-                ['label' => 'Usuarios y roles', 'url' => ['/usuarios/index'], 'icon' => 'bi-people'],
-                ['label' => 'Catálogo de roles', 'url' => ['/roles/index'], 'icon' => 'bi-list'],
             ],
         ],
        [

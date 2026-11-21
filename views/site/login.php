@@ -8,7 +8,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use app\widgets\Alert;
 
-$this->title = 'Login';
+$this->title = 'Inicio de Sesión';
 $this->params['breadcrumbs'][] = $this->title;
 
 $htmlIcon = <<<HTML
@@ -60,7 +60,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                             ) ?>
                         </div>
                         <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
-                        <p class="text-body-secondary small">Please enter your credentials</p>
+                        <p class="text-body-secondary small">Por favor, ingresa tus credenciales</p>
                     </div>
 
                     <?= Alert::widget() ?>
@@ -75,7 +75,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                                 'placeholder' => 'admin',
                                 'autofocus' => true,
                             ],
-                        ])->textInput()->label('Username', $labelOptions) ?>
+                        ])->textInput()->label('Usuario', $labelOptions) ?>
                     </div>
 
                     <div class="mb-4">
@@ -87,7 +87,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                                 'placeholder' => 'Password',
                                 'autocomplete' => 'current-password',
                             ],
-                        ])->passwordInput()->label('Password', $labelOptions) ?>
+                        ])->passwordInput()->label('Contraseña', $labelOptions) ?>
                     </div>
 
                     <div class="d-grid">

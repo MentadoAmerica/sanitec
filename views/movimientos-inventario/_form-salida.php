@@ -45,7 +45,7 @@ $edificios = Edificios::find()
 
     <div class="row g-3">
         <div class="col-md-6">
-            <?= $form->field($model, 'id_material')->dropDownList(
+            <?= $form->field($model, 'material')->dropDownList(
                 $materiales,
                 ['prompt' => 'Selecciona un material', 'class' => 'form-select']
             ) ?>
